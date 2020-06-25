@@ -8,10 +8,8 @@ database = sqlite3.connect("assignment2.db")
 cursor = database.cursor() 
 
 class User:
-    def __init__(self, fname, lname, uid):
-        self.firstname = fname
-        self.lastname = lname
-        self.id = uid
+    def __init__(self):
+        pass
     def setfName(self,fname):
         self.firstname = fname
     def setLName(self, lname):
@@ -103,6 +101,7 @@ class admin(User):
         pass
     def printCourses(self):
         pass
+
 def printStudents():
     # QUERY FOR ALL
     print("Entire student table")
@@ -121,6 +120,13 @@ def printAdmins():
     # QUERY FOR ALL
     print("Entire admin table")
     cursor.execute("""SELECT * FROM ADMIN""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printCourses():
+    # QUERY FOR ALL
+    print("Entire course table")
+    cursor.execute("""SELECT * FROM COURSE""")
     query_result = cursor.fetchall()
     for i in query_result:
 	    print(i) 
@@ -188,10 +194,11 @@ def removeCourse():
 	    print(i)
     removecrn =input("What is the CRN of the course you would like to remove?")
     cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
-def addUser():
-    table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
+def addUser(table):
+    #need to create the class instance
+    #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
     if table == 's':
-        sid = input("Enter studnet's ID")
+        sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
         sfname = input("Enter student's first name")
         slname = input("Enter student's last name")
         sgradyear = input("Enter the student's grad year")
@@ -199,7 +206,7 @@ def addUser():
         semail = input("Enter the studnet's email")
         cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
     elif table == 'i':
-        iid = input("Enter instructor's ID")
+        iid = input("Enter instructor's ID -  5 numbers (starts with 1)")
         ifname = input("Enter instructor's first name")
         ilname = input("Enter instructor's Last name")
         ititle = input("Enter the instructor's title")
@@ -208,7 +215,7 @@ def addUser():
         iemail = input("Enter the instructor's email")
         cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
     elif table == 'a':
-        aid = input("Enter admin's ID")
+        aid = input("Enter admin's ID -  5 numbers (starts with 1)")
         afname = input("Enter admin's first name")
         alname = input("Enter admin's Last name")
         atitle = input("Enter the admin's title")
@@ -218,15 +225,8 @@ def addUser():
     else:
         print("Not a valid user type")
 
-# QUERY FOR ALL
-print("Entire admin table")
-cursor.execute("""SELECT * FROM ADMIN""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i) 
-
 #menu
+user1 = new User()
 usertype = ''
 print("Welcome to CURSE databases")
 userid = input("Enter your ID to login: \t")
@@ -285,30 +285,29 @@ if usertype == 'a':
             #add course
             print("Add a course to the system:\n")  
             addCourse()
-            #used to checking purposes
-            #print("Entire Course table")
-            #cursor.execute("""SELECT * FROM COURSE""")
-            #query_result = cursor.fetchall()
-  
-            #for i in query_result:
-	        #    print(i) 
+            #printCourses()
         elif choice == 2 :
             #remove a course
             print("remove a course from the system:\n")
             removeCourse()
             #used for checking purposes
-            #print("Entire Course table")
-            #cursor.execute("""SELECT * FROM COURSE""")
-            #query_result = cursor.fetchall()
-  
-            #for i in query_result:
-	        #    print(i) """
+            #printCouses()
         elif choice == 3:
             #add user
             print("Add a user:\n")
+            table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
+            addUser(table)
+            #for checking purposes
+            if table == 's':
+                printStudents()
+            elif table == 'i':
+                printInstructors()
+            elif table == 'a':
+                printAdmins()
         elif choice == 4:
             #remove a user
             print("Remove a user:\n")
+
         elif choice == 5:
             #force a student out of a class
             print("Force a student out of a class/roster")
