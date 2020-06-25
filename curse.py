@@ -186,7 +186,19 @@ def removeCourse():
 	    print(i)
     removecrn =input("What is the CRN of the course you would like to remove?")
     cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
-
+def addUser():
+    table = input("What type of user would you like to add?\n1. Student\t2. Instructor\t3. Admin \n")
+    if table == 1:
+        uid = input("Enter Studnet ID")
+        ufname = input("Enter Student first name")
+        ulname = input("Enter Student Last name")
+        ugradyear = input("Enter the Student's grad year")
+        umajor = input("Enter the students major")
+        uemail = input("Enter the studnets email")
+        cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (uid, ufname, ulname, ugradyear, umajor, uemail))
+    else:
+        print("Not a valid table name")
+    
 #menu
 usertype = ''
 print("Welcome to CURSE databases")
@@ -294,7 +306,6 @@ if usertype == 'a':
             print("That is not an allowed option")
 else:
     print("That is not an allowed user type")
-
 
 
 print("What would you like to do?\t1. Search\t2. Insert data\t3. Print\t4. Create a table\t5. Update table\t6. Remove Table")
