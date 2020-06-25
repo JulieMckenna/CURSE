@@ -82,30 +82,11 @@ class instructor(User):
 class admin(User):
     def __init__(self, fname, lname, uid):
         super().__init_(fname, lname, id)
-    #do 1st
+    #do 1st - done
     def addCourse(self):
         #check for valid crn - not taken by another class
-        CRNvalid = False
-        while CRNvalid == False:
-            crn = input("Enter the CRN")
-            cursor.execute("SELECT * FROM COUSRE WHERE CRN=?", (crn,))
-            query_result = cursor.fetchall()
-            for i in query_result:
-                if i != None :
-                    print("Not a valid CRN")
-                    CRNvalid = False
-                else:
-                    CRNvalid = True
-        Name = input("Enter name of course: \t")
-        DEPT = input("Enter course depatment: \t")
-        courseInstructor = input("Enter instructor name: \t")
-        Time = input("Enter meeting times: \t")
-        coursedays = input("Enter meeting days: \t")
-        coursesemester = input("Enter class semester: \t")
-        courseyear = input("Enter class year: \t")
-        credits = input("Enter course credit: \t")
-        cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, credits))
-    #do 2nd
+        pass
+    #do 2nd - done
     def removeCourser(self):
         pass
     def addUser(self):
@@ -122,6 +103,27 @@ class admin(User):
         pass
     def printCourses(self):
         pass
+def printStudents():
+    # QUERY FOR ALL
+    print("Entire student table")
+    cursor.execute("""SELECT * FROM STUDENT""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printInstructors():
+    # QUERY FOR ALL
+    print("Entire instructor table")
+    cursor.execute("""SELECT * FROM INSTRUCTOR""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printAdmins():
+    # QUERY FOR ALL
+    print("Entire admin table")
+    cursor.execute("""SELECT * FROM ADMIN""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
 
 #checks database to see if the userid is in any other user databases(student, instructor, or admin)
 def Login(id, usertype):
