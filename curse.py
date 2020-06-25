@@ -18,7 +18,9 @@ class User:
         self.id = uid
     def printUser(self):
         print("First name: " + self.firstname +"\tLast name: " + self.lastname + "\tId: " + self.id)
-    #all users
+    #all user functions
+    
+    #checks database to see if the userid is in any other user databases(student, instructor, or admin)
     def Login(self, id, usertype):
         cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
@@ -26,22 +28,20 @@ class User:
             if i != None :
                 print("type studnet")
                 usertype = 's'
-            print(i)
         cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
                 print("type instructor")
                 usertype = 'i'
-            print(i)
         cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
                 print("type admin")
                 usertype = 'a'
-            print(i)
-        return usertype 
+        #create new type of user instance that logged in as?
+        return usertype  
     def Logout(self):
         pass
     def SearchAllCourses(self): 
@@ -132,26 +132,6 @@ def printCourses():
 	    print(i) 
 
 #checks database to see if the userid is in any other user databases(student, instructor, or admin)
-def Login(id, usertype):
-        cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (userid,))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            if i != None :
-                print("type studnet")
-                usertype = 's'
-        cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            if i != None :
-                print("type instructor")
-                usertype = 'i'
-        cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            if i != None :
-                print("type admin")
-                usertype = 'a'
-        return usertype 
 
 #works
 def addCourse():
@@ -226,11 +206,11 @@ def addUser(table):
         print("Not a valid user type")
 
 #menu
-user1 = new User()
+user1 = User()
 usertype = ''
 print("Welcome to CURSE databases")
 userid = input("Enter your ID to login: \t")
-usertype = Login(userid,usertype)
+usertype = user1.Login(userid,usertype)
 print(usertype)
 if usertype == 's':
     #student
