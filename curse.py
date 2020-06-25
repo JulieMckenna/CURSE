@@ -187,18 +187,43 @@ def removeCourse():
     removecrn =input("What is the CRN of the course you would like to remove?")
     cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
 def addUser():
-    table = input("What type of user would you like to add?\n1. Student\t2. Instructor\t3. Admin \n")
-    if table == 1:
-        uid = input("Enter Studnet ID")
-        ufname = input("Enter Student first name")
-        ulname = input("Enter Student Last name")
-        ugradyear = input("Enter the Student's grad year")
-        umajor = input("Enter the students major")
-        uemail = input("Enter the studnets email")
-        cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (uid, ufname, ulname, ugradyear, umajor, uemail))
+    table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
+    if table == 's':
+        sid = input("Enter studnet's ID")
+        sfname = input("Enter student's first name")
+        slname = input("Enter student's last name")
+        sgradyear = input("Enter the student's grad year")
+        smajor = input("Enter the student's major")
+        semail = input("Enter the studnet's email")
+        cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
+    elif table == 'i':
+        iid = input("Enter instructor's ID")
+        ifname = input("Enter instructor's first name")
+        ilname = input("Enter instructor's Last name")
+        ititle = input("Enter the instructor's title")
+        iyear = input("What year was the instructor employed?")
+        idept = input("Enter the instructor's departemnt?")
+        iemail = input("Enter the instructor's email")
+        cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
+    elif table == 'a':
+        aid = input("Enter admin's ID")
+        afname = input("Enter admin's first name")
+        alname = input("Enter admin's Last name")
+        atitle = input("Enter the admin's title")
+        aoffice = input("Where is the admin's office?")
+        aemail = input("Enter the admin's email")
+        cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (aid, afname, alname, atitle, aoffice, aemail))
     else:
-        print("Not a valid table name")
-    
+        print("Not a valid user type")
+
+# QUERY FOR ALL
+print("Entire admin table")
+cursor.execute("""SELECT * FROM ADMIN""")
+query_result = cursor.fetchall()
+  
+for i in query_result:
+	print(i) 
+
 #menu
 usertype = ''
 print("Welcome to CURSE databases")
