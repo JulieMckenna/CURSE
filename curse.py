@@ -7,9 +7,11 @@ database = sqlite3.connect("assignment2.db")
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
 cursor = database.cursor() 
 
+#make a 3rd database - hold crns and user ids - too keep track of what users have been added to what classes
+
 class User:
     def __init__(self):
-        pass
+       pass
     def setfName(self,fname):
         self.firstname = fname
     def setLName(self, lname):
@@ -44,9 +46,11 @@ class User:
         return usertype  
     def Logout(self):
         pass
-    def SearchAllCourses(self): 
-        pass
-    def SearchParam(self):
+    #shows all courses
+    def SearchAllCourses(self):
+        print("Showing all courses")
+        printCourses()
+    def SearchParam(self, param):
         pass
 
 #student class
@@ -78,15 +82,55 @@ class instructor(User):
       
 #admin class
 class admin(User):
-    def __init__(self, fname, lname, uid):
-        super().__init_(fname, lname, id)
+    def __init__(self, aid, afname, alname):
+        self.id = aid
+        self.firstname = afname
+        self.lastname = alname
     #do 1st - done
     def addCourse(self):
         #check for valid crn - not taken by another class
-        pass
+        CRNvalid = False
+        while CRNvalid == False:
+            CRNvalid = True
+            crn = input("Enter the CRN")
+            cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+                if i != None :
+                    print("Not a valid CRN")
+                    CRNvalid = False
+        Name = input("Enter name of course: \t")
+        #check dept make sure 4 chars - save them as uppercase
+        DEPT = input("Enter course depatment: \t")
+        #query for available instructors
+        cursor.execute("""SELECT INSTRUCTOR.NAME, INSTRUCTOR.SURNAME, INSTRUCTOR.DEPT FROM INSTRUCTOR
+WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
+        query_result = cursor.fetchall()
+        for i in query_result:
+	        print(i)
+        courseInstructor = input("Enter instructor name from list above: \t")
+        Time = input("Enter meeting times: \t")
+        coursedays = input("Enter meeting days: \t")
+        #make sure only fall, spring, or summer
+        coursesemester = input("Enter class semester: \t")
+        #must be 4 number year
+        courseyear = input("Enter class year: \t")
+        #make sure only 4 credits and whole numbers
+        coursecredits = input("Enter course credit: \t")
+        cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
+
     #do 2nd - done
-    def removeCourser(self):
-        pass
+    def removeCourse(self):
+        #remove based on crn 
+        #print courses - display all so admin can see what courses there are
+        print("Entire Course table")
+        cursor.execute("""SELECT * FROM COURSE""")
+        query_result = cursor.fetchall()
+        for i in query_result:
+	        print(i)
+        removecrn =input("What is the CRN of the course you would like to remove?")
+        cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
     def addUser(self):
         pass
     def removeUser(self):
@@ -134,46 +178,6 @@ def printCourses():
 #checks database to see if the userid is in any other user databases(student, instructor, or admin)
 
 #works
-def addCourse():
-    #check for valid crn - not taken by another class
-    CRNvalid = False
-    while CRNvalid == False:
-        CRNvalid = True
-        crn = input("Enter the CRN")
-        cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            print(i)
-            if i != None :
-                print("Not a valid CRN")
-                CRNvalid = False
-    Name = input("Enter name of course: \t")
-    DEPT = input("Enter course depatment: \t")
-    #query for available instructors
-    cursor.execute("""SELECT INSTRUCTOR.NAME, INSTRUCTOR.SURNAME, INSTRUCTOR.DEPT FROM INSTRUCTOR
-WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i)
-    courseInstructor = input("Enter instructor name from list above: \t")
-    Time = input("Enter meeting times: \t")
-    coursedays = input("Enter meeting days: \t")
-    coursesemester = input("Enter class semester: \t")
-    courseyear = input("Enter class year: \t")
-    coursecredits = input("Enter course credit: \t")
-    cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
-
-#works
-def removeCourse():
-    #remove based on crn
-    #print courses - display all so admin can see what courses there are
-    print("Entire Course table")
-    cursor.execute("""SELECT * FROM COURSE""")
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i)
-    removecrn =input("What is the CRN of the course you would like to remove?")
-    cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
 def addUser(table):
     #need to create the class instance
     #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
@@ -185,6 +189,7 @@ def addUser(table):
         smajor = input("Enter the student's major")
         semail = input("Enter the studnet's email")
         cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
+        print("\nYou have enrolled %s %s", sfname, slname)
     elif table == 'i':
         iid = input("Enter instructor's ID -  5 numbers (starts with 1)")
         ifname = input("Enter instructor's first name")
@@ -194,6 +199,7 @@ def addUser(table):
         idept = input("Enter the instructor's departemnt?")
         iemail = input("Enter the instructor's email")
         cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
+        print("\nYou have hired instructor %s %s", ifname, ilname)
     elif table == 'a':
         aid = input("Enter admin's ID -  5 numbers (starts with 1)")
         afname = input("Enter admin's first name")
@@ -202,9 +208,14 @@ def addUser(table):
         aoffice = input("Where is the admin's office?")
         aemail = input("Enter the admin's email")
         cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (aid, afname, alname, atitle, aoffice, aemail))
+        print("\nYou have hired admin %s %s", afname, alname)
     else:
         print("Not a valid user type")
-
+#displays all classes
+def serach():
+    printCourses()
+def serachParam():
+    pass
 #menu
 user1 = User()
 usertype = ''
@@ -259,17 +270,32 @@ if usertype == 'a':
     #admin section
     print("Welcome to the admin portion.")
     while True:
+        #getting values from table to create instance of the class
+        cursor.execute("""SELECT * FROM ADMIN WHERE ID=?""", (userid,))
+        query_result = cursor.fetchall()
+        for i in query_result:
+            ai = str(i).split(',')
+            #print(ai)
+            aid = str(ai[0]).replace("(","")
+            #print(aid)
+            afname = str(ai[1]).replace("'","")
+            afname = afname.replace(" ", "")
+            #print(afname)
+            alname = str(ai[2]).replace("'","")
+            alname = alname.replace(" ", "")
+            #print(alname)
+        admin1 = admin(aid, afname, alname)
         choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student out of a course/roster\n6. Search course\n7. Search Roster\n8. Print courses\n9. Print rosters\n10. Exit\n"))
         print(choice)
         if choice == 1 :
             #add course
             print("Add a course to the system:\n")  
-            addCourse()
+            admin1.addCourse()
             #printCourses()
         elif choice == 2 :
             #remove a course
             print("remove a course from the system:\n")
-            removeCourse()
+            admin1.removeCourse()
             #used for checking purposes
             #printCouses()
         elif choice == 3:
@@ -287,13 +313,22 @@ if usertype == 'a':
         elif choice == 4:
             #remove a user
             print("Remove a user:\n")
-
         elif choice == 5:
             #force a student out of a class
             print("Force a student out of a class/roster")
         elif choice == 6:
             #search course
-            print("Search for a course:\n")
+            searchtype = input("Would you like to search by a parameter or not?(y or n)")
+            if searchtype == 'n':
+                print("Search for a course:\n")
+                #show all courses - go to function
+            elif searchtype == 'y':
+                admin1.searchCourse()
+                #show courses based on param
+                #ask for which param - go to function
+                param = input("What would you like to search by?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4.Instructor")
+            else :
+                print("Not a valid input")
         elif choice == 7:
             #search roster
             print("Search for a roster:\n")
