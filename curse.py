@@ -21,8 +21,6 @@ cursor = database.cursor()
 8. menu - done
 """
 
-
-
 #print functions for all of the tables
 def printCourses():
     # QUERY FOR ALL
@@ -52,11 +50,6 @@ def printAdmins():
     query_result = cursor.fetchall()
     for i in query_result:
 	    print(i) 
-
-cursor.execute("SELECT * FROM COURSE WHERE TIME LIKE '%8:00%'")
-query_result = cursor.fetchall()
-for i in query_result:
-    print(i)
 
 class User:
     def __init__(self):
@@ -94,7 +87,10 @@ class User:
         return usertype 
     #need to do  
     def Logout(self):
-        pass
+        print("Exiting")
+        database.commit() 
+        database.close() 
+        exit()
     #shows all courses - works
     def SearchAllCourses(self):
         print("Showing all courses")
@@ -117,7 +113,7 @@ class User:
             for i in query_result:
                 print(i)
         elif param == 3:
-            #search by meeting times - need help
+            #search by meeting times - done
             searchparm = "%" + (input("Please enter the meeting times(start time): \t")) +"%"
             cursor.execute("SELECT * FROM COURSE WHERE TIME LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
@@ -285,13 +281,6 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
     def printCourses(self):
         pass
 
-
-
-#displays all classes
-def serach():
-    printCourses()
-def serachParam():
-    pass
 #menu
 user1 = User()
 usertype = ''
@@ -304,7 +293,7 @@ if usertype == 's':
     print("Welcome to the student portion")
     #print("Please enter your first name, last name, and id number")
     while True:
-        choice = int(input("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Exit\n"))
+        choice = int(input("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n"))
         if choice == 1:
             #search course
             print("Search course:\n")
@@ -326,7 +315,7 @@ if usertype == 's':
 elif usertype == 'i':
     print("Welcome to the instructor portion.")
     while True:
-        choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Exit\n"))
+        choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
         if choice == 1:
             #print schedule
             print("Printing schedule:\n")
@@ -361,7 +350,7 @@ if usertype == 'a':
             alname = alname.replace(" ", "")
             #print(alname)
         admin1 = admin(aid, afname, alname)
-        choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student out of a course/roster\n6. Search course\n7. Search Roster\n8. Print courses\n9. Print rosters\n10. Exit\n"))
+        choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student out of a course/roster\n6. Search course\n7. Search Roster\n8. Print courses\n9. Print rosters\n10. Logout\n"))
         print(choice)
         if choice == 1 :
             #add course
