@@ -414,100 +414,11 @@ if usertype == 'a':
             #print rosters
             print("Print rosters:\n")
         elif choice == 10:
-            print("Exiting")
-            database.commit() 
-            database.close() 
-            exit()
+            admin1.Logout()
         else:
             print("That is not an allowed option")
 else:
     print("That is not an allowed user type")
-
-
-print("What would you like to do?\t1. Search\t2. Insert data\t3. Print\t4. Create a table\t5. Update table\t6. Remove Table")
-choice = int(input())
-if choice == 1:
-    #search
-    print("Searching")
-elif choice == 2:
-    #insert
-    print("Insert")
-    table = input("What table would you like to insert into?\n1. Student\t2. Instructor\t3. Admin\t4. Course")
-    if table == 1:
-        uid = input("Enter Studnet ID")
-        ufname = input("Enter Student first name")
-        ulname = input("Enter Student Last name")
-        ugradyear = input("Enter the Student's grad year")
-        umajor = input("Enter the students major")
-        uemail = input("Enter the studnets email")
-        cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (uid, ufname, ulname, ugradyear, umajor, uemail))
-    else:
-        print("Not a valid table name")
-elif choice == 3:
-    #print all
-    tableprint = input("What table do you wnat to print?")
-    # QUERY FOR ALL
-    print("Entire Admin table")
-    print(tableprint)
-    print("SELECT * FROM",(tableprint))
-    cursor.execute("""SELECT * FROM""",(tableprint))
-    query_result = cursor.fetchall()
-  
-    for i in query_result:
-        print(i)
-elif choice == 4:
-    #create table
-    print("create table")
-elif choice == 5:
-    #update table
-    print("update table")
-elif choice == 6:
-    #remove table
-    tablename = input("What table would you like to remove?")
-    cursor.execute("""DROP TABLE %s""", (tablename))
-else:
-    print("Not a valid option")
-
-
-cursor.execute("""PRAGMA table_info(STUDENT)""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i)
-
-#printing tables
-# QUERY FOR ALL
-print("Entire Student table")
-cursor.execute("""SELECT * FROM STUDENT""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i)
-
-# QUERY FOR ALL
-print("Entire Instructor table")
-cursor.execute("""SELECT * FROM INSTRUCTOR""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i)
-
-# QUERY FOR ALL
-print("Entire Admin table")
-cursor.execute("""SELECT * FROM ADMIN""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i)
-
-print("Entire Course table")
-cursor.execute("""SELECT * FROM COURSE""")
-query_result = cursor.fetchall()
-  
-for i in query_result:
-	print(i)
-
-
 
 # To save the changes in the files. Never skip this.  
 # If we skip this, nothing will be saved in the database. 
