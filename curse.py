@@ -291,12 +291,40 @@ print(usertype)
 if usertype == 's':
     #student
     print("Welcome to the student portion")
+    #getting values from table to create instance of the class
+    cursor.execute("""SELECT * FROM STUDENT WHERE ID=?""", (userid,))
+    query_result = cursor.fetchall()
+    for i in query_result:
+        i = str(i).split(',')
+        #print(i)
+        id = str(i[0]).replace("(","")
+        #print(id)
+        fname = str(i[1]).replace("'","")
+        fname = fname.replace(" ", "")
+        #print(fname)
+        lname = str(i[2]).replace("'","")
+        lname = lname.replace(" ", "")
+        #print(lname)
+    stud1 = student(id, fname, lname)
     #print("Please enter your first name, last name, and id number")
     while True:
         choice = int(input("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n"))
         if choice == 1:
             #search course
             print("Search course:\n")
+            searchtype = input("Would you like to search by a parameter or not?(y or n)")
+            #show all courses -
+            if searchtype == 'n': 
+                print("Search for a course:\n")
+                #go to function
+                inst1.SearchAllCourses()
+            #show courses based on param
+            elif searchtype == 'y':
+                #ask for which param - go to function
+                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
+                inst1.SearchParam(int(param))
+            else :
+                print("Not a valid input")
         elif choice == 2:
             #add course
             print("Adding a course:\n")
@@ -308,12 +336,26 @@ if usertype == 's':
             print("Printing schedule:\n")
         elif choice == 5:
             #exit
-            print("Exiting")
-            exit()
+            stud1.Logout()
         else:
             print("That is not an allowed option.\n")
 elif usertype == 'i':
     print("Welcome to the instructor portion.")
+    #getting values from table to create instance of the class
+    cursor.execute("""SELECT * FROM INSTRUCTOR WHERE ID=?""", (userid,))
+    query_result = cursor.fetchall()
+    for i in query_result:
+        i = str(i).split(',')
+        #print(i)
+        id = str(i[0]).replace("(","")
+        #print(id)
+        fname = str(i[1]).replace("'","")
+        fname = fname.replace(" ", "")
+        #print(fname)
+        lname = str(i[2]).replace("'","")
+        lname = lname.replace(" ", "")
+        #print(lname)
+    inst1 = instructor(id, fname, lname)
     while True:
         choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
         if choice == 1:
@@ -325,31 +367,43 @@ elif usertype == 'i':
         elif choice == 3:
             #search courses
             print("Searching courses:\n")
+            searchtype = input("Would you like to search by a parameter or not?(y or n)")
+            #show all courses -
+            if searchtype == 'n': 
+                print("Search for a course:\n")
+                #go to function
+                inst1.SearchAllCourses()
+            #show courses based on param
+            elif searchtype == 'y':
+                #ask for which param - go to function
+                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
+                inst1.SearchParam(int(param))
+            else :
+                print("Not a valid input")
         elif choice == 4:
             #exit
-            print("Exiting")
-            exit()
+            inst1.Logout()
         else:
             print("That is not an allowed option")
 if usertype == 'a':
     #admin section
     print("Welcome to the admin portion.")
+    #getting values from table to create instance of the class
+    cursor.execute("""SELECT * FROM ADMIN WHERE ID=?""", (userid,))
+    query_result = cursor.fetchall()
+    for i in query_result:
+        i = str(i).split(',')
+        #print(i)
+        id = str(i[0]).replace("(","")
+        #print(id)
+        fname = str(i[1]).replace("'","")
+        fname = fname.replace(" ", "")
+        #print(fname)
+        lname = str(i[2]).replace("'","")
+        lname = lname.replace(" ", "")
+        #print(alname)
+    admin1 = admin(id, fname, lname)
     while True:
-        #getting values from table to create instance of the class
-        cursor.execute("""SELECT * FROM ADMIN WHERE ID=?""", (userid,))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            ai = str(i).split(',')
-            #print(ai)
-            aid = str(ai[0]).replace("(","")
-            #print(aid)
-            afname = str(ai[1]).replace("'","")
-            afname = afname.replace(" ", "")
-            #print(afname)
-            alname = str(ai[2]).replace("'","")
-            alname = alname.replace(" ", "")
-            #print(alname)
-        admin1 = admin(aid, afname, alname)
         choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student out of a course/roster\n6. Search course\n7. Search Roster\n8. Print courses\n9. Print rosters\n10. Logout\n"))
         print(choice)
         if choice == 1 :
