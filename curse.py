@@ -9,6 +9,36 @@ cursor = database.cursor()
 
 #make a 3rd database - hold crns and user ids - too keep track of what users have been added to what classes
 
+#print functions for all of the tables
+def printCourses():
+    # QUERY FOR ALL
+    print("Entire course table")
+    cursor.execute("""SELECT * FROM COURSE""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printStudents():
+    # QUERY FOR ALL
+    print("Entire student table")
+    cursor.execute("""SELECT * FROM STUDENT""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printInstructors():
+    # QUERY FOR ALL
+    print("Entire instructor table")
+    cursor.execute("""SELECT * FROM INSTRUCTOR""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+def printAdmins():
+    # QUERY FOR ALL
+    print("Entire admin table")
+    cursor.execute("""SELECT * FROM ADMIN""")
+    query_result = cursor.fetchall()
+    for i in query_result:
+	    print(i) 
+
 class User:
     def __init__(self):
        pass
@@ -21,9 +51,8 @@ class User:
     def printUser(self):
         print("First name: " + self.firstname +"\tLast name: " + self.lastname + "\tId: " + self.id)
     #all user functions
-    
     #checks database to see if the userid is in any other user databases(student, instructor, or admin)
-    def Login(self, id, usertype):
+    def Login(self, id, usertype): #works
         cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
@@ -43,20 +72,24 @@ class User:
                 print("type admin")
                 usertype = 'a'
         #create new type of user instance that logged in as?
-        return usertype  
+        return usertype 
+    #need to do  
     def Logout(self):
         pass
-    #shows all courses
+    #shows all courses - works
     def SearchAllCourses(self):
         print("Showing all courses")
         printCourses()
+    #lets user search by parameter
     def SearchParam(self, param):
         pass
 
 #student class
 class student(User):
-    def __init__(self, fname, lname, uid):
-        super().__init_(fname, lname, id)
+    def __init__(self, uid, fname, lname):
+        self.id = uid
+        self.firstname = fname
+        self.lastname = lname
         schedule = [] #save the crns of the courses to list 
     #do 1st
     def addCourse(self):
@@ -69,8 +102,10 @@ class student(User):
 
 #instructor class
 class instructor(User):
-    def __init__(self, fname, lname, uid):
-        super().__init_(fname, lname, id)
+    def __init__(self, uid, fname, lname):
+        self.id = uid
+        self.firstname = fname
+        self.lastname = lname
         schedule = [] #save the crns of courses that instructor is teaching
     def printSchedule(self):
         print("print schedule")
@@ -82,10 +117,10 @@ class instructor(User):
       
 #admin class
 class admin(User):
-    def __init__(self, aid, afname, alname):
-        self.id = aid
-        self.firstname = afname
-        self.lastname = alname
+    def __init__(self, uid, fname, lname):
+        self.id = uid
+        self.firstname = fname
+        self.lastname = lname
     #do 1st - done
     def addCourse(self):
         #check for valid crn - not taken by another class
@@ -119,7 +154,6 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #make sure only 4 credits and whole numbers
         coursecredits = input("Enter course credit: \t")
         cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
-
     #do 2nd - done
     def removeCourse(self):
         #remove based on crn 
@@ -131,9 +165,57 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
 	        print(i)
         removecrn =input("What is the CRN of the course you would like to remove?")
         cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
-    def addUser(self):
-        pass
-    def removeUser(self):
+    def addUser(self, table): #done
+        #need to create the class instance
+        #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
+        if table == 's':
+            sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
+            sfname = input("Enter student's first name")
+            slname = input("Enter student's last name")
+            sgradyear = input("Enter the student's grad year")
+            smajor = input("Enter the student's major")
+            semail = input("Enter the studnet's email")
+            cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
+            print("\nYou have enrolled %s %s", sfname, slname)
+        elif table == 'i':
+            iid = input("Enter instructor's ID -  5 numbers (starts with 1)")
+            ifname = input("Enter instructor's first name")
+            ilname = input("Enter instructor's Last name")
+            ititle = input("Enter the instructor's title")
+            iyear = input("What year was the instructor employed?")
+            idept = input("Enter the instructor's departemnt?")
+            iemail = input("Enter the instructor's email")
+            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
+            print("\nYou have hired instructor %s %s", ifname, ilname)
+        elif table == 'a':
+            aid = input("Enter admin's ID -  5 numbers (starts with 1)")
+            afname = input("Enter admin's first name")
+            alname = input("Enter admin's Last name")
+            atitle = input("Enter the admin's title")
+            aoffice = input("Where is the admin's office?")
+            aemail = input("Enter the admin's email")
+            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (aid, afname, alname, atitle, aoffice, aemail))
+            print("\nYou have hired admin %s %s", afname, alname)
+        else:
+            print("Not a valid user type")
+    def removeUser(self, table):
+        if table == 's':
+            print("These are the current students in the system.")
+            printStudents()
+            removeid = input("Please enter the ID of the student you would like to remove.\t")
+            cursor.execute("DELETE FROM STUDENT WHERE ID=?", (removeid, ))       
+        elif table == 'i':
+            print("These are the current instructors in the system.")
+            printInstructors()
+            removeid = input("Please enter the ID of the instructor you would like to remove.\t")
+            cursor.execute("DELETE FROM INSTRUCTOR WHERE ID=?", (removeid, ))  
+        elif table == 'a':
+            print("These are the current admins in the system.")
+            printAdmins()
+            removeid = input("Please enter the ID of the admin you would like to remove.\t")
+            cursor.execute("DELETE FROM ADMIN WHERE ID=?", (removeid, ))  
+        else:
+            print("Not a valid table name")
         pass
     def forceRemoveFromCourse(self):
         pass
@@ -146,71 +228,8 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
     def printCourses(self):
         pass
 
-def printStudents():
-    # QUERY FOR ALL
-    print("Entire student table")
-    cursor.execute("""SELECT * FROM STUDENT""")
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i) 
-def printInstructors():
-    # QUERY FOR ALL
-    print("Entire instructor table")
-    cursor.execute("""SELECT * FROM INSTRUCTOR""")
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i) 
-def printAdmins():
-    # QUERY FOR ALL
-    print("Entire admin table")
-    cursor.execute("""SELECT * FROM ADMIN""")
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i) 
-def printCourses():
-    # QUERY FOR ALL
-    print("Entire course table")
-    cursor.execute("""SELECT * FROM COURSE""")
-    query_result = cursor.fetchall()
-    for i in query_result:
-	    print(i) 
 
-#checks database to see if the userid is in any other user databases(student, instructor, or admin)
 
-#works
-def addUser(table):
-    #need to create the class instance
-    #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
-    if table == 's':
-        sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
-        sfname = input("Enter student's first name")
-        slname = input("Enter student's last name")
-        sgradyear = input("Enter the student's grad year")
-        smajor = input("Enter the student's major")
-        semail = input("Enter the studnet's email")
-        cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
-        print("\nYou have enrolled %s %s", sfname, slname)
-    elif table == 'i':
-        iid = input("Enter instructor's ID -  5 numbers (starts with 1)")
-        ifname = input("Enter instructor's first name")
-        ilname = input("Enter instructor's Last name")
-        ititle = input("Enter the instructor's title")
-        iyear = input("What year was the instructor employed?")
-        idept = input("Enter the instructor's departemnt?")
-        iemail = input("Enter the instructor's email")
-        cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
-        print("\nYou have hired instructor %s %s", ifname, ilname)
-    elif table == 'a':
-        aid = input("Enter admin's ID -  5 numbers (starts with 1)")
-        afname = input("Enter admin's first name")
-        alname = input("Enter admin's Last name")
-        atitle = input("Enter the admin's title")
-        aoffice = input("Where is the admin's office?")
-        aemail = input("Enter the admin's email")
-        cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (aid, afname, alname, atitle, aoffice, aemail))
-        print("\nYou have hired admin %s %s", afname, alname)
-    else:
-        print("Not a valid user type")
 #displays all classes
 def serach():
     printCourses()
@@ -302,7 +321,7 @@ if usertype == 'a':
             #add user
             print("Add a user:\n")
             table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
-            addUser(table)
+            admin1.addUser(table)
             #for checking purposes
             if table == 's':
                 printStudents()
@@ -313,15 +332,25 @@ if usertype == 'a':
         elif choice == 4:
             #remove a user
             print("Remove a user:\n")
+            table = input("What type of user would you like to remove?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
+            admin1.addUser(table)
+            #for checking purposes
+            if table == 's':
+                printStudents()
+            elif table == 'i':
+                printInstructors()
+            elif table == 'a':
+                printAdmins()
         elif choice == 5:
             #force a student out of a class
             print("Force a student out of a class/roster")
         elif choice == 6:
             #search course
             searchtype = input("Would you like to search by a parameter or not?(y or n)")
-            if searchtype == 'n':
+            if searchtype == 'n': 
                 print("Search for a course:\n")
                 #show all courses - go to function
+                admin1.SearchAllCourses()
             elif searchtype == 'y':
                 admin1.searchCourse()
                 #show courses based on param
