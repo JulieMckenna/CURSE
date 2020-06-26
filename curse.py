@@ -15,7 +15,7 @@ cursor = database.cursor()
 2. assemble and print course roster
 3. add/remove courses from system - done
 4. login - done
-5. log out
+5. log out - done - check plz
 6. search all courses - done
 7. search courses based on parameteres - done
 8. menu - done
