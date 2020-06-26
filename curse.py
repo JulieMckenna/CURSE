@@ -317,12 +317,12 @@ if usertype == 's':
             if searchtype == 'n': 
                 print("Search for a course:\n")
                 #go to function
-                inst1.SearchAllCourses()
+                stud1.SearchAllCourses()
             #show courses based on param
             elif searchtype == 'y':
                 #ask for which param - go to function
                 param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
-                inst1.SearchParam(int(param))
+                stud1.SearchParam(int(param))
             else :
                 print("Not a valid input")
         elif choice == 2:
