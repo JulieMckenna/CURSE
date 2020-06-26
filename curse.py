@@ -7,7 +7,21 @@ database = sqlite3.connect("assignment2.db")
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
 cursor = database.cursor() 
 
+
 #make a 3rd database - hold crns and user ids - too keep track of what users have been added to what classes
+#to do(assign 5)
+"""
+1. add/remove course form sem schedule - studnet
+2. assemble and print course roster
+3. add/remove courses from system - done
+4. login - done
+5. log out
+6. search all courses - done
+7. search courses based on parameteres - done
+8. menu - done
+"""
+
+
 
 #print functions for all of the tables
 def printCourses():
@@ -38,6 +52,11 @@ def printAdmins():
     query_result = cursor.fetchall()
     for i in query_result:
 	    print(i) 
+
+cursor.execute("SELECT * FROM COURSE WHERE TIME LIKE '%8:00%'")
+query_result = cursor.fetchall()
+for i in query_result:
+    print(i)
 
 class User:
     def __init__(self):
@@ -82,7 +101,44 @@ class User:
         printCourses()
     #lets user search by parameter
     def SearchParam(self, param):
-        pass
+        if param == 1:
+            #search by class name - done
+            searchparm = "%" + str(input("Please enter the class name:\t")) + "%"
+            cursor.execute("SELECT * FROM COURSE WHERE NAME LIKE ?", (searchparm,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+        elif param == 2:
+            #search by meeting days - done
+            searchparm = "%" + str(input("Please enter the meeting days(ex. MW or TR).\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t")) + "%"
+            print(searchparm)
+            cursor.execute("SELECT * FROM COURSE WHERE DAYS LIKE ?", (searchparm,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+        elif param == 3:
+            #search by meeting times - need help
+            searchparm = "%" + (input("Please enter the meeting times(start time): \t")) +"%"
+            cursor.execute("SELECT * FROM COURSE WHERE TIME LIKE ?", (searchparm,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+        elif param == 4:
+            #serach by department/major - done
+            searchparm = "%" + str(input("Please enter the major/department name: \t")) + "%"
+            cursor.execute("SELECT * FROM COURSE WHERE DEPT LIKE ?", (searchparm,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+        elif param == 5:
+            #search by instructor - done
+            searchparm = "%" + str(input("Please enter the instructor name: \t")) + "%"
+            cursor.execute("SELECT * FROM COURSE WHERE INSTRUCTOR LIKE ?", (searchparm,))
+            query_result = cursor.fetchall()
+            for i in query_result:
+                print(i)
+        else:
+            print("Not a valid parameter to search by")
 
 #student class
 class student(User):
@@ -198,6 +254,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             print("\nYou have hired admin %s %s", afname, alname)
         else:
             print("Not a valid user type")
+    #done
     def removeUser(self, table):
         if table == 's':
             print("These are the current students in the system.")
@@ -352,10 +409,10 @@ if usertype == 'a':
                 #show all courses - go to function
                 admin1.SearchAllCourses()
             elif searchtype == 'y':
-                admin1.searchCourse()
                 #show courses based on param
                 #ask for which param - go to function
-                param = input("What would you like to search by?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4.Instructor")
+                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
+                admin1.SearchParam(int(param))
             else :
                 print("Not a valid input")
         elif choice == 7:
