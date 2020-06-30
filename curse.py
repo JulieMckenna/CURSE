@@ -268,64 +268,130 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         if table == 's':
             idvalid = False
             while idvalid == False:
-                sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
-                if len(sid) != 5:
+                idvalid = True
+                id = input("Enter studnet's ID - 5 numbers (starts with 1)")
+                if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
-                    cursor.execute("SELECT * FROM STUNDET WHERE ID=?", (sid,))
+                    cursor.execute("SELECT * FROM STUNDET WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
+                    for i in query_result:
+                        if i != None:
+                            print("Already a user with that id number")
+                            idvalid = False
+            fname = input("Enter student's first name")
+            lname = input("Enter student's last name")
+            gradyear = input("Enter the student's grad year")
+            major = input("Enter the student's major")
+            emailvalid = False
+            while emailvalid == False:
+                emailvalid = True
+                email = input("Enter the instructor's email")
+                cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
                     if query_result != None:
-                        print("Already a user with that id number")
-                    else:
-                        idvalid = True             
-            sfname = input("Enter student's first name")
-            slname = input("Enter student's last name")
-            sgradyear = input("Enter the student's grad year")
-            smajor = input("Enter the student's major")
-            semail = input("Enter the studnet's email")
-            cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
-            print("\nYou have enrolled %s %s", sfname, slname)
+                            print("Already a student with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM INSTRUCTOR WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an instructor with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM ADMIN WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an admin with that email")
+                            emailvalid = False
+            cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, gradyear, major, email))
+            print("\nYou have enrolled %s %s", fname, lname)
         elif table == 'i':
             idvalid = False
             while idvalid == False:
-                iid = input("Enter studnet's ID - 5 numbers (starts with 2)")
-                if len(sid) != 5:
+                idvalid = True
+                id = input("Enter studnet's ID - 5 numbers (starts with 2)")
+                if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
-                    cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (iid,))
+                    cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
+                    for i in query_result:
+                        if query_result != None:
+                            print("Already a user with that id number")
+                            idvalid = False
+            fname = input("Enter instructor's first name")
+            lname = input("Enter instructor's Last name")
+            title = input("Enter the instructor's title")
+            year = input("What year was the instructor employed?")
+            dept = input("Enter the instructor's department?")
+            emailvalid = False
+            while emailvalid == False:
+                emailvalid = True
+                email = input("Enter the instructor's email")
+                cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
                     if query_result != None:
-                        print("Already a user with that id number")
-                    else:
-                        idvalid = True 
-            ifname = input("Enter instructor's first name")
-            ilname = input("Enter instructor's Last name")
-            ititle = input("Enter the instructor's title")
-            iyear = input("What year was the instructor employed?")
-            idept = input("Enter the instructor's departemnt?")
-            iemail = input("Enter the instructor's email")
-            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
-            print("\nYou have hired instructor %s %s", ifname, ilname)
+                            print("Already a student with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM INSTRUCTOR WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an instructor with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM ADMIN WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an admin with that email")
+                            emailvalid = False
+            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (id, fname, lname, title, year, dept, email))
+            print("\nYou have hired instructor %s %s", fname, lname)
         elif table == 'a':
             idvalid = False
             while idvalid == False:
-                aid = input("Enter admin's ID - 5 numbers (starts with 3)")
-                if len(sid) != 5:
+                idvalid = True
+                id = input("Enter admin's ID - 5 numbers (starts with 3)")
+                if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
-                    cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (aid,))
+                    cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
+                    for i in query_result:
+                        if query_result != None:
+                            print("Already a user with that id number") 
+                            idvalid = False
+            fname = input("Enter admin's first name")
+            lname = input("Enter admin's Last name")
+            title = input("Enter the admin's title")
+            office = input("Where is the admin's office?")
+            emailvalid = False
+            while emailvalid == False:
+                emailvalid = True
+                email = input("Enter the instructor's email")
+                cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
                     if query_result != None:
-                        print("Already a user with that id number")
-                    else:
-                        idvalid = True 
-            afname = input("Enter admin's first name")
-            alname = input("Enter admin's Last name")
-            atitle = input("Enter the admin's title")
-            aoffice = input("Where is the admin's office?")
-            aemail = input("Enter the admin's email")
-            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (aid, afname, alname, atitle, aoffice, aemail))
-            print("\nYou have hired admin %s %s", afname, alname)
+                            print("Already a student with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM INSTRUCTOR WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an instructor with that email")
+                            emailvalid = False
+                cursor.execute("SELECT * FROM ADMIN WHERE EMAIL=?", (email,))
+                query_result = cursor.fetchall()
+                for i in query_result:
+                    if query_result != None:
+                            print("Already an admin with that email")
+                            emailvalid = False
+            cursor.execute("""INSERT INTO ADMIN VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, title, office, email))
+            print("\nYou have hired admin %s %s", fname, lname)
         else:
             print("Not a valid user type")
     #done
@@ -498,7 +564,7 @@ if usertype == 'a':
         elif choice == 3:
             #add user
             print("Add a user:\n")
-            table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
+            table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\tAdmin(a)\n")
             admin1.addUser(table)
             #for checking purposes
             if table == 's':
@@ -510,8 +576,8 @@ if usertype == 'a':
         elif choice == 4:
             #remove a user
             print("Remove a user:\n")
-            table = input("What type of user would you like to remove?\nStudent(s)\tInstructor(i)\t3. Admin(a)\n")
-            admin1.addUser(table)
+            table = input("What type of user would you like to remove?\nStudent(s)\tInstructor(i)\tAdmin(a)\n")
+            admin1.removeUser(table)
             #for checking purposes
             if table == 's':
                 printStudents()
