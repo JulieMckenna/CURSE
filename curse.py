@@ -266,7 +266,18 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #need to create the class instance
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
         if table == 's':
-            sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
+            idvalid = False
+            while idvalid == False:
+                sid = input("Enter studnet's ID - 5 numbers (starts with 1)")
+                if len(sid) != 5:
+                    print("ID has to be 5 numbers")
+                else:
+                    cursor.execute("SELECT * FROM STUNDET WHERE ID=?", (sid,))
+                    query_result = cursor.fetchall()
+                    if query_result != None:
+                        print("Already a user with that id number")
+                    else:
+                        idvalid = True             
             sfname = input("Enter student's first name")
             slname = input("Enter student's last name")
             sgradyear = input("Enter the student's grad year")
@@ -275,7 +286,18 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (sid, sfname, slname, sgradyear, smajor, semail))
             print("\nYou have enrolled %s %s", sfname, slname)
         elif table == 'i':
-            iid = input("Enter instructor's ID -  5 numbers (starts with 1)")
+            idvalid = False
+            while idvalid == False:
+                iid = input("Enter studnet's ID - 5 numbers (starts with 2)")
+                if len(sid) != 5:
+                    print("ID has to be 5 numbers")
+                else:
+                    cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (iid,))
+                    query_result = cursor.fetchall()
+                    if query_result != None:
+                        print("Already a user with that id number")
+                    else:
+                        idvalid = True 
             ifname = input("Enter instructor's first name")
             ilname = input("Enter instructor's Last name")
             ititle = input("Enter the instructor's title")
@@ -285,7 +307,18 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (iid, ifname, ilname, ititle, iyear, idept, iemail))
             print("\nYou have hired instructor %s %s", ifname, ilname)
         elif table == 'a':
-            aid = input("Enter admin's ID -  5 numbers (starts with 1)")
+            idvalid = False
+            while idvalid == False:
+                aid = input("Enter admin's ID - 5 numbers (starts with 3)")
+                if len(sid) != 5:
+                    print("ID has to be 5 numbers")
+                else:
+                    cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (aid,))
+                    query_result = cursor.fetchall()
+                    if query_result != None:
+                        print("Already a user with that id number")
+                    else:
+                        idvalid = True 
             afname = input("Enter admin's first name")
             alname = input("Enter admin's Last name")
             atitle = input("Enter the admin's title")
