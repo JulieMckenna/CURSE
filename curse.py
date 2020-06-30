@@ -259,7 +259,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         query_result = cursor.fetchall()
         for i in query_result:
 	        print(i)
-        removecrn =input("What is the CRN of the course you would like to remove?")
+        removecrn =input("What is the CRN of the course you would like to remove?\t")
         cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
         print("Removed course")
     def addUser(self, table): #done
