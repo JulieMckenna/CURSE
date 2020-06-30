@@ -102,37 +102,57 @@ class User:
             searchparm = "%" + str(input("Please enter the class name:\t")) + "%"
             cursor.execute("SELECT * FROM COURSE WHERE NAME LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
-            for i in query_result:
-                print(i)
-        elif param == 2:
+            print("Result: \n")
+            if query_result != None:
+                for i in query_result:
+                    print(i)
+            else:
+                print("There are no classes that match your search requirments.")
+        if param == 2:
             #search by meeting days - done
             searchparm = "%" + str(input("Please enter the meeting days(ex. MW or TR).\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t")) + "%"
-            print(searchparm)
+            #print(searchparm)
             cursor.execute("SELECT * FROM COURSE WHERE DAYS LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
-            for i in query_result:
-                print(i)
+            print("Result: \n")
+            if query_result != None:
+                for i in query_result:
+                    print(i)
+            else:
+                print("There are no classes that match your search requirments.")
         elif param == 3:
             #search by meeting times - done
             searchparm = "%" + (input("Please enter the meeting times(start time): \t")) +"%"
             cursor.execute("SELECT * FROM COURSE WHERE TIME LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
-            for i in query_result:
-                print(i)
+            print("Result: \n")
+            if query_result != None:
+                for i in query_result:
+                    print(i)
+            else:
+                print("There are no classes that match your search requirments.")
         elif param == 4:
             #serach by department/major - done
             searchparm = "%" + str(input("Please enter the major/department name: \t")) + "%"
             cursor.execute("SELECT * FROM COURSE WHERE DEPT LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
-            for i in query_result:
-                print(i)
+            print("Result: \n")
+            if query_result != None:
+                for i in query_result:
+                    print(i)
+            else:
+                print("There are no classes that match your search requirments.")
         elif param == 5:
             #search by instructor - done
             searchparm = "%" + str(input("Please enter the instructor name: \t")) + "%"
             cursor.execute("SELECT * FROM COURSE WHERE INSTRUCTOR LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
-            for i in query_result:
-                print(i)
+            print("Result: \n")
+            if query_result != None:
+                for i in query_result:
+                    print(i)
+            else:
+                print("There are no classes that match your search requirments.")
         else:
             print("Not a valid parameter to search by")
 
@@ -317,12 +337,12 @@ if usertype == 's':
             if searchtype == 'n': 
                 print("Search for a course:\n")
                 #go to function
-                inst1.SearchAllCourses()
+                stud1.SearchAllCourses()
             #show courses based on param
             elif searchtype == 'y':
                 #ask for which param - go to function
                 param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
-                inst1.SearchParam(int(param))
+                stud1.SearchParam(int(param))
             else :
                 print("Not a valid input")
         elif choice == 2:
