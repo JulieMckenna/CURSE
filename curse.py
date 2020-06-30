@@ -20,7 +20,7 @@ cursor = database.cursor()
 7. search courses based on parameteres - done
 8. menu - done
 """
-
+semsters = ["Fall", "Spring", "Summer"]
 #print functions for all of the tables
 def printCourses():
     # QUERY FOR ALL
@@ -85,7 +85,7 @@ class User:
                 usertype = 'a'
         #create new type of user instance that logged in as?
         return usertype 
-    #need to do  
+    #done 
     def Logout(self):
         print("Exiting")
         database.commit() 
@@ -162,7 +162,7 @@ class student(User):
         self.id = uid
         self.firstname = fname
         self.lastname = lname
-        schedule = [] #save the crns of the courses to list 
+        #schedule = [] #save the crns of the courses to list 
     #do 1st
     def addCourse(self):
         pass
@@ -178,7 +178,7 @@ class instructor(User):
         self.id = uid
         self.firstname = fname
         self.lastname = lname
-        schedule = [] #save the crns of courses that instructor is teaching
+        #schedule = [] save the crns of courses that instructor is teaching
     def printSchedule(self):
         print("print schedule")
     #do 1st
@@ -209,7 +209,14 @@ class admin(User):
                     CRNvalid = False
         Name = input("Enter name of course: \t")
         #check dept make sure 4 chars - save them as uppercase
-        DEPT = input("Enter course depatment: \t")
+        deptvalid = False
+        while deptvalid == False:
+            deptvalid == True
+            DEPT = input("Enter course department: \t")
+            if len(DEPT) != 4:
+                deptvalid == False
+                print("Department needs to be 4 letters")
+            DEPT = DEPT.upper()
         #query for available instructors
         cursor.execute("""SELECT INSTRUCTOR.NAME, INSTRUCTOR.SURNAME, INSTRUCTOR.DEPT FROM INSTRUCTOR
 WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
@@ -220,11 +227,29 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         Time = input("Enter meeting times: \t")
         coursedays = input("Enter meeting days: \t")
         #make sure only fall, spring, or summer
-        coursesemester = input("Enter class semester: \t")
+        semvalid = False
+        while semvalid == False:
+            coursesemester = input("Enter class semester(Fall, Spring, Summer): \t")
+            for i in semsters:
+                if coursesemester == semsters[i]:
+                    semvalid = True
+                    coursesemester = coursesemester.capitalize()
+            if semvalid == False:
+                print("Not a valid semster")
         #must be 4 number year
-        courseyear = input("Enter class year: \t")
+        yearvalid = False
+        while yearvalid == False:
+            courseyear = input("Enter class year: \t")
+            if len(courseyear) == 4:
+                yearvalid = True
         #make sure only 4 credits and whole numbers
-        coursecredits = input("Enter course credit: \t")
+        creditsvalid = False
+        while creditsvalid == False:
+            coursecredits = input("Enter course credit: \t")
+            if coursecredits > 4 or coursecredits < 0:
+                print("Not a valid input. Must range from 0-4 credits")
+            else:
+                coursecredits = True
         cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
     #do 2nd - done
     def removeCourse(self):
