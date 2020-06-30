@@ -49,8 +49,7 @@ def printAdmins():
     cursor.execute("""SELECT * FROM ADMIN""")
     query_result = cursor.fetchall()
     for i in query_result:
-	    print(i) 
-
+	    print(i)
 class User:
     def __init__(self):
        pass
@@ -69,19 +68,16 @@ class User:
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type studnet")
                 usertype = 's'
         cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type instructor")
                 usertype = 'i'
         cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type admin")
                 usertype = 'a'
         #create new type of user instance that logged in as?
         return usertype 
@@ -199,7 +195,7 @@ class admin(User):
         CRNvalid = False
         while CRNvalid == False:
             CRNvalid = True
-            crn = input("Enter the CRN")
+            crn = input("Enter the CRN: \t")
             cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
             query_result = cursor.fetchall()
             for i in query_result:
@@ -211,7 +207,7 @@ class admin(User):
         #check dept make sure 4 chars - save them as uppercase
         deptvalid = False
         while deptvalid == False:
-            deptvalid == True
+            deptvalid = True
             DEPT = input("Enter course department: \t")
             if len(DEPT) != 4:
                 deptvalid == False
@@ -225,13 +221,14 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
 	        print(i)
         courseInstructor = input("Enter instructor name from list above: \t")
         Time = input("Enter meeting times: \t")
+        #check for: M, T, W, H, F, O - online - add this
         coursedays = input("Enter meeting days: \t")
         #make sure only fall, spring, or summer
         semvalid = False
         while semvalid == False:
             coursesemester = input("Enter class semester(Fall, Spring, Summer): \t")
             for i in semsters:
-                if coursesemester == semsters[i]:
+                if coursesemester == i:
                     semvalid = True
                     coursesemester = coursesemester.capitalize()
             if semvalid == False:
@@ -245,12 +242,14 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #make sure only 4 credits and whole numbers
         creditsvalid = False
         while creditsvalid == False:
-            coursecredits = input("Enter course credit: \t")
+            creditsvalid = True
+            coursecredits = int(input("Enter course credit: \t"))
+            print(coursecredits)
             if coursecredits > 4 or coursecredits < 0:
                 print("Not a valid input. Must range from 0-4 credits")
-            else:
-                coursecredits = True
+                creditsvalid = False
         cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
+        print("Course added")
     #do 2nd - done
     def removeCourse(self):
         #remove based on crn 
@@ -260,8 +259,9 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         query_result = cursor.fetchall()
         for i in query_result:
 	        print(i)
-        removecrn =input("What is the CRN of the course you would like to remove?")
+        removecrn =input("What is the CRN of the course you would like to remove?:\t")
         cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
+        print("Course removed")
     def addUser(self, table): #done
         #need to create the class instance
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
@@ -280,7 +280,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already a user with that id number")
                             idvalid = False
             fname = input("Enter student's first name:\t")
-            lname = input("Enter student's last name:\t)
+            lname = input("Enter student's last name:\t")
             gradyear = input("Enter the student's grad year:\t")
             major = input("Enter the student's major:\t")
             emailvalid = False
@@ -306,7 +306,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already an admin with that email")
                             emailvalid = False
             cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, gradyear, major, email))
-            print("\nYou have enrolled %s %s", fname, lname)
+            print("\nYou have enrolled: ", fname, " ", lname)
         elif table == 'i':
             idvalid = False
             while idvalid == False:
@@ -349,7 +349,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already an admin with that email")
                             emailvalid = False
             cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (id, fname, lname, title, year, dept, email))
-            print("\nYou have hired instructor %s %s", fname, lname)
+            print("\nYou have hired instructor: ", fname, lname)
         elif table == 'a':
             idvalid = False
             while idvalid == False:
@@ -391,7 +391,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already an admin with that email")
                             emailvalid = False
             cursor.execute("""INSERT INTO ADMIN VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, title, office, email))
-            print("\nYou have hired admin %s %s", fname, lname)
+            print("\nYou have hired admin "+ fname + lname)
         else:
             print("Not a valid user type")
     #done
@@ -431,7 +431,6 @@ usertype = ''
 print("Welcome to CURSE databases")
 userid = input("Enter your ID to login: \t")
 usertype = user1.Login(userid,usertype)
-print(usertype)
 if usertype == 's':
     #student
     print("Welcome to the student portion")
@@ -616,7 +615,7 @@ if usertype == 'a':
         else:
             print("That is not an allowed option")
 else:
-    print("That is not an allowed user type")
+    print("There is no user associated with that ID")
 
 # To save the changes in the files. Never skip this.  
 # If we skip this, nothing will be saved in the database. 
