@@ -269,7 +269,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter studnet's ID - 5 numbers (starts with 1)")
+                id = input("Enter studnet's ID - 5 numbers (starts with 1):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
@@ -279,14 +279,14 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                         if i != None:
                             print("Already a user with that id number")
                             idvalid = False
-            fname = input("Enter student's first name")
-            lname = input("Enter student's last name")
-            gradyear = input("Enter the student's grad year")
-            major = input("Enter the student's major")
+            fname = input("Enter student's first name:\t")
+            lname = input("Enter student's last name:\t)
+            gradyear = input("Enter the student's grad year:\t")
+            major = input("Enter the student's major:\t")
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email")
+                email = input("Enter the instructor's email:\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
@@ -311,7 +311,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter studnet's ID - 5 numbers (starts with 2)")
+                id = input("Enter studnet's ID - 5 numbers (starts with 2):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
@@ -321,15 +321,15 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                         if query_result != None:
                             print("Already a user with that id number")
                             idvalid = False
-            fname = input("Enter instructor's first name")
-            lname = input("Enter instructor's Last name")
-            title = input("Enter the instructor's title")
-            year = input("What year was the instructor employed?")
-            dept = input("Enter the instructor's department?")
+            fname = input("Enter instructor's first name:\t")
+            lname = input("Enter instructor's Last name:\t")
+            title = input("Enter the instructor's title:\t")
+            year = input("What year was the instructor employed?:\t")
+            dept = input("Enter the instructor's department?:\t")
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email")
+                email = input("Enter the instructor's email:\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
@@ -354,7 +354,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter admin's ID - 5 numbers (starts with 3)")
+                id = input("Enter admin's ID - 5 numbers (starts with 3):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
@@ -364,14 +364,14 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                         if query_result != None:
                             print("Already a user with that id number") 
                             idvalid = False
-            fname = input("Enter admin's first name")
-            lname = input("Enter admin's Last name")
-            title = input("Enter the admin's title")
-            office = input("Where is the admin's office?")
+            fname = input("Enter admin's first name:\t")
+            lname = input("Enter admin's Last name:\t")
+            title = input("Enter the admin's title:\t")
+            office = input("Where is the admin's office?:\t")
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email")
+                email = input("Enter the instructor's email:\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
