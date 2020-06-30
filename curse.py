@@ -2,7 +2,7 @@
 import sqlite3
 
 # database file connection 
-database = sqlite3.connect("assignment2.db") 
+database = sqlite3.connect("curseDatabase.db")
   
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
 cursor = database.cursor() 
@@ -11,8 +11,8 @@ cursor = database.cursor()
 #make a 3rd database - hold crns and user ids - too keep track of what users have been added to what classes
 #to do(assign 5)
 """
-1. add/remove course form sem schedule - studnet
-2. assemble and print course roster
+1. add/remove course form sem schedule - done
+2. assemble and print course roster - done
 3. add/remove courses from system - done
 4. login - done
 5. log out - done - check plz
@@ -69,16 +69,19 @@ class User:
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
+                print("type student")
                 usertype = 's'
         cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
+                print("type instructor")
                 usertype = 'i'
         cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
+                print("type admin")
                 usertype = 'a'
         #create new type of user instance that logged in as?
         return usertype 
@@ -104,7 +107,7 @@ class User:
                 for i in query_result:
                     print(i)
             else:
-                print("There are no classes that match your search requirments.")
+                print("There are no classes that match your search requirements.")
         if param == 2:
             #search by meeting days - done
             searchparm = "%" + str(input("Please enter the meeting days(ex. MW or TR).\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t")) + "%"
@@ -116,7 +119,7 @@ class User:
                 for i in query_result:
                     print(i)
             else:
-                print("There are no classes that match your search requirments.")
+                print("There are no classes that match your search requirements.")
         elif param == 3:
             #search by meeting times - done
             searchparm = "%" + (input("Please enter the meeting times(start time): \t")) +"%"
@@ -127,7 +130,7 @@ class User:
                 for i in query_result:
                     print(i)
             else:
-                print("There are no classes that match your search requirments.")
+                print("There are no classes that match your search requirements.")
         elif param == 4:
             #serach by department/major - done
             searchparm = "%" + str(input("Please enter the major/department name: \t")) + "%"
@@ -138,7 +141,7 @@ class User:
                 for i in query_result:
                     print(i)
             else:
-                print("There are no classes that match your search requirments.")
+                print("There are no classes that match your search requirements.")
         elif param == 5:
             #search by instructor - done
             searchparm = "%" + str(input("Please enter the instructor name: \t")) + "%"
@@ -149,7 +152,7 @@ class User:
                 for i in query_result:
                     print(i)
             else:
-                print("There are no classes that match your search requirments.")
+                print("There are no classes that match your search requirements.")
         else:
             print("Not a valid parameter to search by")
 
@@ -159,14 +162,40 @@ class student(User):
         self.id = uid
         self.firstname = fname
         self.lastname = lname
-        #schedule = [] #save the crns of the courses to list 
     #do 1st
     def addCourse(self):
+        cursor.execute("""SELECT CRN FROM COURSE;""")
+        courses = cursor.fetchall()
+        temp = input("Please enter CRN of course you want to add: ")
+        tempT = tuple(map(int, temp.split(',')))
+        if tempT in courses:
+            cursor.execute("""SELECT CRN FROM ROSTER WHERE ID = '%s'""" % self.id)
+            schedule = cursor.fetchall()
+            if tempT not in schedule:
+                cursor.execute("""INSERT INTO ROSTER VALUES ('%s', '%s');""" % (temp, self.id))
+                print("Successfully added course")
+            else:
+                print("You are already registered for that course")
+        else:
+            print("No class with that CRN.")
         pass
     #do 1st
     def dropCourse(self):
+        cursor.execute("""SELECT CRN FROM ROSTER WHERE ID = '%s'""" % self.id)
+        roster = cursor.fetchall()
+        temp = input("Please enter CRN of course you want to drop: ")
+        tempT = tuple(map(int, temp.split(',')))
+        if tempT in roster:
+            cursor.execute("""DELETE FROM ROSTER WHERE CRN = '%s';""" % temp)
+            print("Successfully dropped course")
+        else:
+            print("You are not registered for a course with that CRN")
         pass
     def printSchedule(self):
+        cursor.execute("""SELECT COURSE.CRN, NAME, INSTRUCTOR, TIME, DAYS, SEMESTER, YEAR, CREDITS FROM COURSE, ROSTER WHERE COURSE.CRN = ROSTER.CRN AND ROSTER.ID = '%s'""" % self.id)
+        schedule = cursor.fetchall()
+        for i in schedule:
+            print(i)
         pass
 
 #instructor class
@@ -175,14 +204,27 @@ class instructor(User):
         self.id = uid
         self.firstname = fname
         self.lastname = lname
-        #schedule = [] save the crns of courses that instructor is teaching
     def printSchedule(self):
         print("print schedule")
-    #do 1st
+        cursor.execute("""SELECT * FROM COURSE WHERE INSTRUCTOR = '%s';""" % self.lastname)
+        schedule = cursor.fetchall()
+        for i in schedule:
+            print(i)
+        pass
     def printRoster(self):
-        print("print roster")
-        #for x in schedule:
-            #print(schedule[x])
+        cursor.execute("""SELECT CRN FROM COURSE WHERE INSTRUCTOR = '%s';""" % self.lastname)
+        classes = cursor.fetchall()
+        temp = input("Please enter CRN of class to pull roster for: ")
+        temp = tuple(map(int, temp.split(',')))
+        print(temp)
+        if temp in classes:
+            cursor.execute("""SELECT STUDENT.ID, STUDENT.NAME, STUDENT.SURNAME, STUDENT.EMAIL FROM STUDENT, ROSTER WHERE STUDENT.ID = ROSTER.ID AND ROSTER.CRN = '%s'""" % (temp))
+            roster = cursor.fetchall()
+            for i in roster:
+                print(i)
+        else:
+            print("No class with that CRN or you don't teach it.")
+        pass
       
 #admin class
 class admin(User):
@@ -192,11 +234,11 @@ class admin(User):
         self.lastname = lname
     #do 1st - done
     def addCourse(self):
-        #check for valid crn - not taken by another class - check length 6 
+        #check for valid crn - not taken by another class
         CRNvalid = False
         while CRNvalid == False:
             CRNvalid = True
-            crn = input("Enter the CRN(6 numbers):\t")
+            crn = input("Enter the CRN")
             cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
             query_result = cursor.fetchall()
             for i in query_result:
@@ -222,7 +264,6 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
 	        print(i)
         courseInstructor = input("Enter instructor name from list above: \t")
         Time = input("Enter meeting times: \t")
-        #print out what days
         coursedays = input("Enter meeting days: \t")
         #make sure only fall, spring, or summer
         semvalid = False
@@ -249,7 +290,6 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             else:
                 coursecredits = True
         cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
-        print("Adding course")
     #do 2nd - done
     def removeCourse(self):
         #remove based on crn 
@@ -259,9 +299,8 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         query_result = cursor.fetchall()
         for i in query_result:
 	        print(i)
-        removecrn =input("What is the CRN of the course you would like to remove?\t")
+        removecrn =input("What is the CRN of the course you would like to remove?")
         cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
-        print("Removed course")
     def addUser(self, table): #done
         #need to create the class instance
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
@@ -414,15 +453,48 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         else:
             print("Not a valid table name")
         pass
-    def forceRemoveFromCourse(self):
-        pass
-    def searchRoster(self):
-        pass
-    def searchCourse(self):
+    def forceStudent(self):
+        temp = int(input("1 - Add Student\n2 - Remove Student"))
+        if temp == 1:
+            tempStu = input("Enter ID of student: ")
+            cursor.execute("""SELECT ID FROM STUDENT""")
+            students = cursor.fetchall()
+            tempStuT = tuple(map(int, tempStu.split(',')))
+            if tempStuT not in students:
+                print("No student with that ID")
+            else:
+                tempCla = input("Enter CRN of class: ")
+                cursor.execute("""SELECT CRN FROM ROSTER WHERE ID = '%s'""" % tempStu)
+                tempRos = cursor.fetchall()
+                tempT = tuple(map(int, tempCla.split(',')))
+                if tempT not in tempRos:
+                    cursor.execute("""INSERT INTO ROSTER VALUES('%s', '%s');""" % (tempCla, tempStu))
+                else:
+                    print("Student is already registered for that course.")
+        elif temp == 2:
+            tempStu = input("Enter ID of student: ")
+            cursor.execute("""SELECT COURSE.CRN, NAME, INSTRUCTOR, TIME, DAYS, SEMESTER, YEAR, CREDITS FROM COURSE, ROSTER WHERE COURSE.CRN = ROSTER.CRN AND ROSTER.ID = '%s'""" % tempStu)
+            schedule = cursor.fetchall()
+            print("Student's Schedule:")
+            for i in schedule:
+                print(i)
+            cursor.execute("""SELECT COURSE.CRN FROM COURSE, ROSTER WHERE COURSE.CRN = ROSTER.CRN AND ROSTER.ID = '%s'""" % tempStu)
+            schedule = cursor.fetchall()
+            tempCla = input("Enter CRN of class: ")
+            tempT = tuple(map(int, tempCla.split(',')))
+            if tempT in schedule:
+                cursor.execute("""DELETE FROM ROSTER WHERE CRN = '%s' AND ID = '%s'""" % (tempCla, tempStu))
+            else:
+                print("Student is not registered for that course or it does not exist.")
+        else:
+            print("Invalid Input")
         pass
     def printRoster(self):
-        pass
-    def printCourses(self):
+        temp = int(input("Please enter CRN of class to pull roster for: "))
+        cursor.execute("""SELECT STUDENT.ID, NAME, SURNAME, EMAIL FROM STUDENT, ROSTER WHERE STUDENT.ID = ROSTER.ID AND ROSTER.CRN = '%s'""" % temp)
+        roster = cursor.fetchall()
+        for i in roster:
+            print(i)
         pass
 
 #menu
@@ -431,6 +503,7 @@ usertype = ''
 print("Welcome to CURSE databases")
 userid = input("Enter your ID to login: \t")
 usertype = user1.Login(userid,usertype)
+print(usertype)
 if usertype == 's':
     #student
     print("Welcome to the student portion")
@@ -471,12 +544,15 @@ if usertype == 's':
         elif choice == 2:
             #add course
             print("Adding a course:\n")
+            stud1.addCourse()
         elif choice == 3:
             #drop course
             print("Dropping a course:\n")
+            stud1.dropCourse()
         elif choice == 4:
             #print schedule
             print("Printing schedule:\n")
+            stud1.printSchedule()
         elif choice == 5:
             #exit
             stud1.Logout()
@@ -504,9 +580,11 @@ elif usertype == 'i':
         if choice == 1:
             #print schedule
             print("Printing schedule:\n")
+            inst1.printSchedule()
         elif choice == 2:
             #print rosters
             print("Printing rosters:\n")
+            inst1.printRoster()
         elif choice == 3:
             #search courses
             print("Searching courses:\n")
@@ -547,7 +625,7 @@ if usertype == 'a':
         #print(alname)
     admin1 = admin(id, fname, lname)
     while True:
-        choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student out of a course/roster\n6. Search course\n7. Search Roster\n8. Print courses\n9. Print rosters\n10. Logout\n"))
+        choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student in to/out of a course\n6. Search course\n7. Print roster\n8. Logout\n"))
         print(choice)
         if choice == 1 :
             #add course
@@ -586,7 +664,8 @@ if usertype == 'a':
                 printAdmins()
         elif choice == 5:
             #force a student out of a class
-            print("Force a student out of a class/roster")
+            print("Force a student in to/out of a course:")
+            admin1.forceStudent()
         elif choice == 6:
             #search course
             searchtype = input("Would you like to search by a parameter or not?(y or n)")
@@ -597,25 +676,19 @@ if usertype == 'a':
             elif searchtype == 'y':
                 #show courses based on param
                 #ask for which param - go to function
-                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
+                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Meeting Times\t4. Department\t5. Instructor")
                 admin1.SearchParam(int(param))
             else :
                 print("Not a valid input")
         elif choice == 7:
-            #search roster
-            print("Search for a roster:\n")
+            print("Print a roster:\n")
+            admin1.printRoster()
         elif choice == 8:
-            #print courses
-            print("Print courses:\n")
-        elif choice == 9:
-            #print rosters
-            print("Print rosters:\n")
-        elif choice == 10:
             admin1.Logout()
         else:
             print("That is not an allowed option")
 else:
-    print("There is not a user matching that ID number")
+    print("That is not an allowed user type")
 
 # To save the changes in the files. Never skip this.  
 # If we skip this, nothing will be saved in the database. 
