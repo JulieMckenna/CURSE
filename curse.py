@@ -11,7 +11,7 @@ cursor = database.cursor()
 #make a 3rd database - hold crns and user ids - too keep track of what users have been added to what classes
 #to do(assign 5)
 """
-1. add/remove course form sem schedule - done
+1. add/remove course from sem schedule - done
 2. assemble and print course roster - done
 3. add/remove courses from system - done
 4. login - done
@@ -238,7 +238,7 @@ class admin(User):
         CRNvalid = False
         while CRNvalid == False:
             CRNvalid = True
-            crn = input("Enter the CRN")
+            crn = input("Enter the CRN:\t")
             cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
             query_result = cursor.fetchall()
             for i in query_result:
@@ -262,9 +262,9 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         query_result = cursor.fetchall()
         for i in query_result:
 	        print(i)
-        courseInstructor = input("Enter instructor name from list above: \t")
-        Time = input("Enter meeting times: \t")
-        coursedays = input("Enter meeting days: \t")
+        courseInstructor = input("Enter instructor name from list above:W\t")
+        Time = input("Enter meeting times(ex 9:30):\t")
+        coursedays = input("Enter meeting days(ex. MW or TR):\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t \t")
         #make sure only fall, spring, or summer
         semvalid = False
         while semvalid == False:
@@ -285,24 +285,19 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         creditsvalid = False
         while creditsvalid == False:
             coursecredits = input("Enter course credit: \t")
+            creditsvalid = True
             if coursecredits > 4 or coursecredits < 0:
-                print("Not a valid input. Must range from 0-4 credits")
-            else:
-                coursecredits = True
+                print("Not a valid input. Must range from 0-4 credits.")
+                creditsvalid = False
         cursor.execute("""INSERT INTO COURSE VALUES('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s' );""" % (crn, Name, DEPT, courseInstructor, Time, coursedays, coursesemester, courseyear, coursecredits))
     #do 2nd - done
     def removeCourse(self):
         #remove based on crn 
         #print courses - display all so admin can see what courses there are
-        print("Entire Course table")
-        cursor.execute("""SELECT * FROM COURSE""")
-        query_result = cursor.fetchall()
-        for i in query_result:
-	        print(i)
+        printCourses()
         removecrn =input("What is the CRN of the course you would like to remove?")
         cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
     def addUser(self, table): #done
-        #need to create the class instance
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
         if table == 's':
             idvalid = False
@@ -316,7 +311,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                     query_result = cursor.fetchall()
                     for i in query_result:
                         if i != None:
-                            print("Already a user with that id number")
+                            print("Already a user with that id number.")
                             idvalid = False
             fname = input("Enter student's first name:\t")
             lname = input("Enter student's last name:\t")
@@ -325,7 +320,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email:\t")
+                email = input("Enter the students's email(without @wit.edu):\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
@@ -350,7 +345,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter studnet's ID - 5 numbers (starts with 2):\t")
+                id = input("Enter INstructor's ID - 5 numbers(starts with 2):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
@@ -368,7 +363,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email:\t")
+                email = input("Enter the instructor's email(without @wit.edu):\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
@@ -393,7 +388,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter admin's ID - 5 numbers (starts with 3):\t")
+                id = input("Enter admin's ID - 5 numbers(starts with 3):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
                 else:
@@ -401,7 +396,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                     query_result = cursor.fetchall()
                     for i in query_result:
                         if query_result != None:
-                            print("Already a user with that id number") 
+                            print("Already a user with that id number.") 
                             idvalid = False
             fname = input("Enter admin's first name:\t")
             lname = input("Enter admin's Last name:\t")
@@ -410,7 +405,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
-                email = input("Enter the instructor's email:\t")
+                email = input("Enter the Admin's email(without @wit.edu):\t")
                 cursor.execute("SELECT * FROM STUDENT WHERE EMAIL=?", (email,))
                 query_result = cursor.fetchall()
                 for i in query_result:
