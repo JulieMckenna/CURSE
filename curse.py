@@ -69,19 +69,16 @@ class User:
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type student")
                 usertype = 's'
         cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type instructor")
                 usertype = 'i'
         cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
-                print("type admin")
                 usertype = 'a'
         #create new type of user instance that logged in as?
         return usertype 
@@ -498,10 +495,8 @@ usertype = ''
 print("Welcome to CURSE databases")
 userid = input("Enter your ID to login: \t")
 usertype = user1.Login(userid,usertype)
-print(usertype)
 if usertype == 's':
     #student
-    print("Welcome to the student portion")
     #getting values from table to create instance of the class
     cursor.execute("""SELECT * FROM STUDENT WHERE ID=?""", (userid,))
     query_result = cursor.fetchall()
@@ -517,6 +512,7 @@ if usertype == 's':
         lname = lname.replace(" ", "")
         #print(lname)
     stud1 = student(id, fname, lname)
+    print("Welcome ", fname, lname)
     #print("Please enter your first name, last name, and id number")
     while True:
         choice = int(input("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n"))
@@ -554,7 +550,6 @@ if usertype == 's':
         else:
             print("That is not an allowed option.\n")
 elif usertype == 'i':
-    print("Welcome to the instructor portion.")
     #getting values from table to create instance of the class
     cursor.execute("""SELECT * FROM INSTRUCTOR WHERE ID=?""", (userid,))
     query_result = cursor.fetchall()
@@ -570,6 +565,7 @@ elif usertype == 'i':
         lname = lname.replace(" ", "")
         #print(lname)
     inst1 = instructor(id, fname, lname)
+    print("Welcome ", fname, lname)
     while True:
         choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
         if choice == 1:
@@ -603,7 +599,7 @@ elif usertype == 'i':
             print("That is not an allowed option")
 if usertype == 'a':
     #admin section
-    print("Welcome to the admin portion.")
+    #print("Welcome to the admin portion.")
     #getting values from table to create instance of the class
     cursor.execute("""SELECT * FROM ADMIN WHERE ID=?""", (userid,))
     query_result = cursor.fetchall()
@@ -619,6 +615,7 @@ if usertype == 'a':
         lname = lname.replace(" ", "")
         #print(alname)
     admin1 = admin(id, fname, lname)
+    print("Welcome ", fname, lname)
     while True:
         choice = int(input("What would you like to do?\n1. Add course to the system\n2. Remove course from system\n3. Add user\n4. Remove user\n5. Force student in to/out of a course\n6. Search course\n7. Print roster\n8. Logout\n"))
         print(choice)
