@@ -299,7 +299,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #remove based on crn 
         #print courses - display all so admin can see what courses there are
         printCourses()
-        removecrn =input("What is the CRN of the course you would like to remove?")
+        removecrn =input("What is the CRN of the course you would like to remove?\n")
         cursor.execute("""SELECT CRN FROM COURSE""")
         courses = cursor.fetchall()
         tempc = tuple(map(int, removecrn.split(',')))
@@ -307,6 +307,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             print("No course in the system with that CRN")
         else:
             cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
+            print("Removed course with CRN is: ", removecrn)
         
     def addUser(self, table): #done
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
@@ -459,44 +460,47 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
     def removeUser(self, table):
         if table == 's':
             print("These are the current students in the system.")
-            #printStudents()
+            printStudents()
             removeid = input("Please enter the ID of the student you would like to remove.\t")
             cursor.execute("""SELECT ID FROM STUDENT""")
             students = cursor.fetchall()
             temps = tuple(map(int, removeid.split(',')))
             if temps not in students:
-                print("No Studnet in the system with that ID")
+                print("\nNo Studnet in the system with that ID")
             else:
-                cursor.execute("DELETE FROM STUDENT WHERE ID=?", (removeid, ))       
+                cursor.execute("DELETE FROM STUDENT WHERE ID=?", (removeid, ))
+                print("\nRemoved Student whoes ID number is:", removeid)       
         elif table == 'i':
             print("These are the current instructors in the system.")
-            #printInstructors()
+            printInstructors()
             removeid = input("Please enter the ID of the instructor you would like to remove.\t")
             cursor.execute("""SELECT ID FROM INSTRUCTOR""")
             insts = cursor.fetchall()
             tempi = tuple(map(int, removeid.split(',')))
             if tempi not in insts:
-                print("No Instructor in the system with that ID")
+                print("\nNo Instructor in the system with that ID")
             else:
-                cursor.execute("DELETE FROM INSTRUCTOR WHERE ID=?", (removeid, ))  
+                cursor.execute("DELETE FROM INSTRUCTOR WHERE ID=?", (removeid, )) 
+                print("Removed Instructor whoes id is: ", removeid) 
         elif table == 'a':
             print("These are the current admins in the system.")
-            #printAdmins()
+            printAdmins()
             removeid = input("Please enter the ID of the admin you would like to remove.\t")
             cursor.execute("""SELECT ID FROM ADMIN""")
             admins = cursor.fetchall()
             tempa = tuple(map(int, removeid.split(',')))
             if tempa not in admins:
-                print("No Admin in the system with that ID")
+                print("\nNo Admin in the system with that ID")
             else:
-                cursor.execute("DELETE FROM ADMIN WHERE ID=?", (removeid, ))  
+                cursor.execute("DELETE FROM ADMIN WHERE ID=?", (removeid, )) 
+                print("\nRemoved admin whoes id is: ", removeid) 
         else:
             print("Not a valid table name")
         pass
     def forceStudent(self):
         temp = int(input("1 - Add Student\n2 - Remove Student"))
         if temp == 1:
-            tempStu = input("Enter ID of student: ")
+            tempStu = input("Enter ID of student: \n")
             cursor.execute("""SELECT ID FROM STUDENT""")
             students = cursor.fetchall()
             tempStuT = tuple(map(int, tempStu.split(',')))

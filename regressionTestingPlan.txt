@@ -69,7 +69,7 @@ Things to test
 
 #admin test run though - AdminInput.txt
 #python ./curse.py < AdminInput.txt > testAdminResults.txt
-# to add remove user not in system, remove class not in system
+# to remove user not in system, remove class not in system
 """
 logs in
 adds a course
@@ -80,6 +80,7 @@ adds an instructor
 removes that instructor
 adds an admin
 removes that admin
+remove instructor not in the system
 searches - no parameter
 seraches - parameter - class name
 searches - parameter - department name
