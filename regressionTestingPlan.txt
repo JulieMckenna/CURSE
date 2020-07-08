@@ -68,6 +68,7 @@ Things to test
 """
 
 #admin test run though - AdminInput.txt
+#python ./curse.py < AdminInput.txt > testAdminResults.txt
 """
 logs in
 adds a course
@@ -84,6 +85,7 @@ searches - parameter - department name
 logs out
 """
 #student test run though - StudentInput.txt
+#python ./curse.py < StudentInput.txt > testStudentResults.txt
 """
 logs in
 seraches classes - no parameter
