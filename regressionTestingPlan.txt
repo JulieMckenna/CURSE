@@ -69,11 +69,11 @@ Things to test
 
 #admin test run though - AdminInput.txt
 #python ./curse.py < AdminInput.txt > testAdminResults.txt
-# to remove user not in system, remove class not in system
 """
 logs in
 adds a course
 removes that course
+remove course not in system
 adds a student
 removes that student
 adds an instructor 
