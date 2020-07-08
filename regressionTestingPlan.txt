@@ -69,6 +69,7 @@ Things to test
 
 #admin test run though - AdminInput.txt
 #python ./curse.py < AdminInput.txt > testAdminResults.txt
+# to add remove user not in system, remove class not in system
 """
 logs in
 adds a course
@@ -86,6 +87,7 @@ logs out
 """
 #student test run though - StudentInput.txt
 #python ./curse.py < StudentInput.txt > testStudentResults.txt
+#to add - register for same class twice
 """
 logs in
 seraches classes - no parameter
