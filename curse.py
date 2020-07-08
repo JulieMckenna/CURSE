@@ -299,7 +299,14 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #print courses - display all so admin can see what courses there are
         printCourses()
         removecrn =input("What is the CRN of the course you would like to remove?")
-        cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
+        cursor.execute("SELECT * FROM COURSE WHERE CRN=?", (removecrn, ))
+        query_result = cursor.fetchall()
+        for i in query_result:
+            if i != None:
+                cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
+            else:
+                print("There is no course with that CRN")
+        
     def addUser(self, table): #done
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
         if table == 's':

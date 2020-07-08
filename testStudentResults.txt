@@ -34,7 +34,16 @@ What would you like to do?
 5. Logout
 Adding a course:
 
-Please enter CRN of course you want to add: Successfully added course
+Please enter CRN of course you want to add: No class with that CRN.
+What would you like to do?
+1. Search courses
+2. Add course
+3. Drop course
+4. Print schedule
+5. Logout
+Adding a course:
+
+Please enter CRN of course you want to add: You are already registered for that course
 What would you like to do?
 1. Search courses
 2. Add course
@@ -43,8 +52,8 @@ What would you like to do?
 5. Logout
 Printing schedule:
 
-(400004, 'Signals & Systems', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
 (400005, 'CAD', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
+(400004, 'Signals & Systems', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
 What would you like to do?
 1. Search courses
 2. Add course
@@ -54,6 +63,15 @@ What would you like to do?
 Dropping a course:
 
 Please enter CRN of course you want to drop: Successfully dropped course
+What would you like to do?
+1. Search courses
+2. Add course
+3. Drop course
+4. Print schedule
+5. Logout
+Dropping a course:
+
+Please enter CRN of course you want to drop: You are not registered for a course with that CRN
 What would you like to do?
 1. Search courses
 2. Add course
