@@ -1,9 +1,12 @@
 #asignment2
 import sqlite3
+from sys import argv
 
 # database file connection 
-database = sqlite3.connect("curseDatabase.db")
-  
+#database = sqlite3.connect("curseDatabase.db")
+#connecting with Julies laptop for testing 
+database = sqlite3.connect(r"C:\Users\mckennaj6\Desktop\Classes\senyyya\APL\CURSE\curseDatabase.db")
+
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
 cursor = database.cursor() 
 
@@ -65,17 +68,17 @@ class User:
     #all user functions
     #checks database to see if the userid is in any other user databases(student, instructor, or admin)
     def Login(self, id, usertype): #works
-        cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (userid,))
+        cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (id,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
                 usertype = 's'
-        cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (userid,))
+        cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (id,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
                 usertype = 'i'
-        cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (userid,))
+        cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (id,))
         query_result = cursor.fetchall()
         for i in query_result:
             if i != None :
@@ -107,7 +110,7 @@ class User:
                 print("There are no classes that match your search requirements.")
         if param == 2:
             #search by meeting days - done
-            searchparm = "%" + str(input("Please enter the meeting days(ex. MW or TR).\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t")) + "%"
+            searchparm = "%" + str(input("Please enter the meeting days(ex. MW or TR).\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\tO=Online\t")) + "%"
             #print(searchparm)
             cursor.execute("SELECT * FROM COURSE WHERE DAYS LIKE ?", (searchparm,))
             query_result = cursor.fetchall()
@@ -235,8 +238,11 @@ class admin(User):
         CRNvalid = False
         while CRNvalid == False:
             CRNvalid = True
-            crn = input("Enter the CRN:\t")
-            cursor.execute("SELECT * FROM COURsE WHERE CRN=?", (crn,))
+            crn = input("Enter the CRN(6 numbers):\t")
+            if len(crn) != 6:
+                CRNvalid = False
+                print("CRN needs to be 6 ints long")
+            cursor.execute("SELECT * FROM COURSE WHERE CRN=?", (crn,))
             query_result = cursor.fetchall()
             for i in query_result:
                 print(i)
@@ -247,10 +253,10 @@ class admin(User):
         #check dept make sure 4 chars - save them as uppercase
         deptvalid = False
         while deptvalid == False:
-            deptvalid == True
+            deptvalid = True
             DEPT = input("Enter course department: \t")
             if len(DEPT) != 4:
-                deptvalid == False
+                deptvalid = False
                 print("Department needs to be 4 letters")
             DEPT = DEPT.upper()
         #query for available instructors
@@ -259,15 +265,15 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         query_result = cursor.fetchall()
         for i in query_result:
 	        print(i)
-        courseInstructor = input("Enter instructor name from list above:W\t")
+        courseInstructor = input("Enter instructor name from list above:\t")
         Time = input("Enter meeting times(ex 9:30):\t")
-        coursedays = input("Enter meeting days(ex. MW or TR):\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\t\O=Online\t \t")
+        coursedays = input("Enter meeting days(ex. MW or TR):\nM=Monday\tT=Tuesday\tW=Wednesday\tR=Thursday\tF=Friday\tO=Online\t \t")
         #make sure only fall, spring, or summer
         semvalid = False
         while semvalid == False:
-            coursesemester = input("Enter class semester(Fall, Spring, Summer): \t")
+            coursesemester = input("Enter class semester(Fall, Spring, Summer): \t").capitalize()
             for i in semsters:
-                if coursesemester == semsters[i]:
+                if coursesemester == (i):
                     semvalid = True
                     coursesemester = coursesemester.capitalize()
             if semvalid == False:
@@ -281,7 +287,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #make sure only 4 credits and whole numbers
         creditsvalid = False
         while creditsvalid == False:
-            coursecredits = input("Enter course credit: \t")
+            coursecredits = int(input("Enter course credit: \t"))
             creditsvalid = True
             if coursecredits > 4 or coursecredits < 0:
                 print("Not a valid input. Must range from 0-4 credits.")
@@ -303,17 +309,25 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                 id = input("Enter studnet's ID - 5 numbers (starts with 1):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
+                    idvalid = False
                 else:
-                    cursor.execute("SELECT * FROM STUNDET WHERE ID=?", (id,))
+                    cursor.execute("SELECT * FROM STUDENT WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
                     for i in query_result:
+                        print(i)
                         if i != None:
                             print("Already a user with that id number.")
                             idvalid = False
-            fname = input("Enter student's first name:\t")
-            lname = input("Enter student's last name:\t")
-            gradyear = input("Enter the student's grad year:\t")
-            major = input("Enter the student's major:\t")
+            fname = input("Enter student's first name:\t").capitalize()
+            lname = input("Enter student's last name:\t").capitalize()
+            yearvalid = False
+            while yearvalid == False:
+                yearvalid = True
+                gradyear = input("Enter the student's grad year:\t")
+                if len(gradyear) != 4:
+                    print("Grad year needs to be a 4 number year")
+                    yearvalid = False
+            major = input("Enter the student's major:\t").upper()
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
@@ -337,14 +351,15 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already an admin with that email")
                             emailvalid = False
             cursor.execute("""INSERT INTO STUDENT VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, gradyear, major, email))
-            print("\nYou have enrolled %s %s", fname, lname)
+            print("\nYou have enrolled ", fname, lname)
         elif table == 'i':
             idvalid = False
             while idvalid == False:
                 idvalid = True
-                id = input("Enter INstructor's ID - 5 numbers(starts with 2):\t")
+                id = input("Enter Instructor's ID - 5 numbers(starts with 2):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
+                    idvalid = False
                 else:
                     cursor.execute("SELECT * FROM INSTRUCTOR WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
@@ -352,11 +367,17 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                         if query_result != None:
                             print("Already a user with that id number")
                             idvalid = False
-            fname = input("Enter instructor's first name:\t")
-            lname = input("Enter instructor's Last name:\t")
-            title = input("Enter the instructor's title:\t")
+            fname = input("Enter instructor's first name:\t").capitalize()
+            lname = input("Enter instructor's Last name:\t").capitalize()
+            title = input("Enter the instructor's title:\t").capitalize()
             year = input("What year was the instructor employed?:\t")
-            dept = input("Enter the instructor's department?:\t")
+            deptvalid = False
+            while deptvalid == False:
+                deptvalid = True
+                dept = input("Enter the instructor's department?:\t").upper()
+                if len(dept) != 4:
+                    print("Dept needs to be 4 letters long")
+                    deptvalid = False
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
@@ -379,8 +400,8 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                     if query_result != None:
                             print("Already an admin with that email")
                             emailvalid = False
-            cursor.execute("""INSERT INTO INSTRCUTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (id, fname, lname, title, year, dept, email))
-            print("\nYou have hired instructor %s %s", fname, lname)
+            cursor.execute("""INSERT INTO INSTRUCTOR VALUES('%s', '%s', '%s', '%s','%s','%s','%s' );""" % (id, fname, lname, title, year, dept, email))
+            print("\nYou have hired instructor ", fname, lname)
         elif table == 'a':
             idvalid = False
             while idvalid == False:
@@ -388,6 +409,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                 id = input("Enter admin's ID - 5 numbers(starts with 3):\t")
                 if len(id) != 5:
                     print("ID has to be 5 numbers")
+                    idvalid = False
                 else:
                     cursor.execute("SELECT * FROM ADMIN WHERE ID=?", (id,))
                     query_result = cursor.fetchall()
@@ -395,10 +417,10 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                         if query_result != None:
                             print("Already a user with that id number.") 
                             idvalid = False
-            fname = input("Enter admin's first name:\t")
-            lname = input("Enter admin's Last name:\t")
-            title = input("Enter the admin's title:\t")
-            office = input("Where is the admin's office?:\t")
+            fname = input("Enter admin's first name:\t").capitalize()
+            lname = input("Enter admin's Last name:\t").capitalize()
+            title = input("Enter the admin's title:\t").capitalize()
+            office = input("Where is the admin's office?:\t").capitalize()
             emailvalid = False
             while emailvalid == False:
                 emailvalid = True
@@ -422,7 +444,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                             print("Already an admin with that email")
                             emailvalid = False
             cursor.execute("""INSERT INTO ADMIN VALUES('%s', '%s', '%s', '%s','%s','%s' );""" % (id, fname, lname, title, office, email))
-            print("\nYou have hired admin %s %s", fname, lname)
+            print("\nYou have hired admin ", fname, lname)
         else:
             print("Not a valid user type")
     #done
@@ -489,12 +511,17 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             print(i)
         pass
 
+
+
 #menu
 user1 = User()
-usertype = ''
+usertype = ' '
 print("Welcome to CURSE databases")
-userid = input("Enter your ID to login: \t")
-usertype = user1.Login(userid,usertype)
+userid = int(input("Enter your ID to login: \t"))
+#print(userid)
+#print("Enter your ID to login: \t")
+#userid = int(argv[1])
+usertype = user1.Login(userid, usertype)
 if usertype == 's':
     #student
     #getting values from table to create instance of the class
@@ -512,10 +539,15 @@ if usertype == 's':
         lname = lname.replace(" ", "")
         #print(lname)
     stud1 = student(id, fname, lname)
-    print("Welcome ", fname, lname)
+    welcome = ("Welcome "+ fname + " "+ lname)
+    print(welcome)
+    with open('result.txt', "w+") as results:
+        results.write(welcome)
     #print("Please enter your first name, last name, and id number")
     while True:
         choice = int(input("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n"))
+        #print("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n")
+        #choice = int(argv[2])
         if choice == 1:
             #search course
             print("Search course:\n")
@@ -567,7 +599,9 @@ elif usertype == 'i':
     inst1 = instructor(id, fname, lname)
     print("Welcome ", fname, lname)
     while True:
-        choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
+        #choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
+        print("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n")
+        choice = int(argv[2])
         if choice == 1:
             #print schedule
             print("Printing schedule:\n")
@@ -668,7 +702,7 @@ if usertype == 'a':
             elif searchtype == 'y':
                 #show courses based on param
                 #ask for which param - go to function
-                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Meeting Times\t4. Department\t5. Instructor")
+                param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Meeting Times\t4. Department\t5. Instructor\n")
                 admin1.SearchParam(int(param))
             else :
                 print("Not a valid input")
