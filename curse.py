@@ -299,13 +299,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         #print courses - display all so admin can see what courses there are
         printCourses()
         removecrn =input("What is the CRN of the course you would like to remove?")
-        cursor.execute("SELECT * FROM COURSE WHERE CRN=?", (removecrn, ))
-        query_result = cursor.fetchall()
-        for i in query_result:
-            if i != None:
-                cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
-            else:
-                print("There is no course with that CRN")
+        cursor.execute("DELETE FROM COURSE WHERE CRN=?", (removecrn, ))
         
     def addUser(self, table): #done
         #add error checking - not if already same id, id != 5 num, cant have same emails(check all user tables)
@@ -518,16 +512,11 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
             print(i)
         pass
 
-
-
 #menu
 user1 = User()
 usertype = ' '
 print("Welcome to CURSE databases")
 userid = int(input("Enter your ID to login: \t"))
-#print(userid)
-#print("Enter your ID to login: \t")
-#userid = int(argv[1])
 usertype = user1.Login(userid, usertype)
 if usertype == 's':
     #student
@@ -536,15 +525,11 @@ if usertype == 's':
     query_result = cursor.fetchall()
     for i in query_result:
         i = str(i).split(',')
-        #print(i)
         id = str(i[0]).replace("(","")
-        #print(id)
         fname = str(i[1]).replace("'","")
         fname = fname.replace(" ", "")
-        #print(fname)
         lname = str(i[2]).replace("'","")
         lname = lname.replace(" ", "")
-        #print(lname)
     stud1 = student(id, fname, lname)
     welcome = ("Welcome "+ fname + " "+ lname)
     print(welcome)
@@ -594,21 +579,15 @@ elif usertype == 'i':
     query_result = cursor.fetchall()
     for i in query_result:
         i = str(i).split(',')
-        #print(i)
         id = str(i[0]).replace("(","")
-        #print(id)
         fname = str(i[1]).replace("'","")
         fname = fname.replace(" ", "")
-        #print(fname)
         lname = str(i[2]).replace("'","")
         lname = lname.replace(" ", "")
-        #print(lname)
     inst1 = instructor(id, fname, lname)
     print("Welcome ", fname, lname)
     while True:
-        #choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
-        print("What would you like to do?\n1. Search courses\n2. Add course\n3. Drop course\n4. Print schedule\n5. Logout\n")
-        choice = int(argv[2])
+        choice = int(input("What would you like to do?\n1. Print Schedule\n2. Print Rosters\n3. Search courses\n4. Logout\n"))
         if choice == 1:
             #print schedule
             print("Printing schedule:\n")
@@ -621,14 +600,11 @@ elif usertype == 'i':
             #search courses
             print("Searching courses:\n")
             searchtype = input("Would you like to search by a parameter or not?(y or n)")
-            #show all courses -
             if searchtype == 'n': 
                 print("Search for a course:\n")
-                #go to function
                 inst1.SearchAllCourses()
             #show courses based on param
             elif searchtype == 'y':
-                #ask for which param - go to function
                 param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Metting Times\t4. Department\t5. Instructor")
                 inst1.SearchParam(int(param))
             else :
@@ -639,22 +615,16 @@ elif usertype == 'i':
         else:
             print("That is not an allowed option")
 if usertype == 'a':
-    #admin section
-    #print("Welcome to the admin portion.")
     #getting values from table to create instance of the class
     cursor.execute("""SELECT * FROM ADMIN WHERE ID=?""", (userid,))
     query_result = cursor.fetchall()
     for i in query_result:
         i = str(i).split(',')
-        #print(i)
         id = str(i[0]).replace("(","")
-        #print(id)
         fname = str(i[1]).replace("'","")
         fname = fname.replace(" ", "")
-        #print(fname)
         lname = str(i[2]).replace("'","")
         lname = lname.replace(" ", "")
-        #print(alname)
     admin1 = admin(id, fname, lname)
     print("Welcome ", fname, lname)
     while True:
@@ -677,24 +647,24 @@ if usertype == 'a':
             table = input("What type of user would you like to add?\nStudent(s)\tInstructor(i)\tAdmin(a)\n")
             admin1.addUser(table)
             #for checking purposes
-            if table == 's':
+            """            if table == 's':
                 printStudents()
             elif table == 'i':
                 printInstructors()
             elif table == 'a':
-                printAdmins()
+                printAdmins()"""
         elif choice == 4:
             #remove a user
             print("Remove a user:\n")
             table = input("What type of user would you like to remove?\nStudent(s)\tInstructor(i)\tAdmin(a)\n")
             admin1.removeUser(table)
             #for checking purposes
-            if table == 's':
+            """"if table == 's':
                 printStudents()
             elif table == 'i':
                 printInstructors()
             elif table == 'a':
-                printAdmins()
+                printAdmins() """
         elif choice == 5:
             #force a student out of a class
             print("Force a student in to/out of a course:")
@@ -704,10 +674,8 @@ if usertype == 'a':
             searchtype = input("Would you like to search by a parameter or not?(y or n)")
             if searchtype == 'n': 
                 print("Search for a course:\n")
-                #show all courses - go to function
                 admin1.SearchAllCourses()
             elif searchtype == 'y':
-                #show courses based on param
                 #ask for which param - go to function
                 param = input("What would you like to search by(Enter number)?\n1. Class Name\t2. Meeting Days\t3. Meeting Times\t4. Department\t5. Instructor\n")
                 admin1.SearchParam(int(param))
