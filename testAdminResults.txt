@@ -1,0 +1,285 @@
+Welcome to CURSE databases
+Enter your ID to login: 	Welcome  Barack Obama
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+1
+Add a course to the system:
+
+Enter the CRN(6 numbers):	CRN needs to be 6 ints long
+Enter the CRN(6 numbers):	CRN needs to be 6 ints long
+Enter the CRN(6 numbers):	Enter name of course: 	Enter course department: 	Department needs to be 4 letters
+Enter course department: 	('Alan', 'Turing', 'BSCO')
+Enter instructor name from list above:	Enter meeting times(ex 9:30):	Enter meeting days(ex. MW or TR):
+M=Monday	T=Tuesday	W=Wednesday	R=Thursday	F=Friday	O=Online	 	Enter class semester(Fall, Spring, Summer): 	Not a valid semster
+Enter class semester(Fall, Spring, Summer): 	Enter class year: 	Enter course credit: 	Not a valid input. Must range from 0-4 credits.
+Enter course credit: 	Not a valid input. Must range from 0-4 credits.
+Enter course credit: 	What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+2
+remove a course from the system:
+
+Entire course table
+(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'T & R', 'Fall', 1994, 4)
+(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'M & W', 'Spring', 1994, 4)
+(400003, 'Prosthetics', 'BSME', 'Bernoulli', '1:00', 'T & R', 'Summer', 1764, 3)
+(400004, 'Signals & Systems', 'BSEE', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
+(400005, 'CAD', 'ENGR', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
+(400010, 'Computer Science', 'BSCO', 'Turing', '2:30', 'O', 'Fall', 2020, 4)
+What is the CRN of the course you would like to remove?What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+3
+Add a user:
+
+What type of user would you like to add?
+Student(s)	Instructor(i)	Admin(a)
+Enter studnet's ID - 5 numbers (starts with 1):	ID has to be 5 numbers
+Enter studnet's ID - 5 numbers (starts with 1):	(10001, 'Isaac', 'Newton', 1668, 'BSAS', 'newtoni')
+Already a user with that id number.
+Enter studnet's ID - 5 numbers (starts with 1):	Enter student's first name:	Enter student's last name:	Enter the student's grad year:	Grad year needs to be a 4 number year
+Enter the student's grad year:	Enter the student's major:	Enter the students's email(without @wit.edu):	Already a student with that email
+Enter the students's email(without @wit.edu):	
+You have enrolled  A C
+Entire student table
+(10001, 'Isaac', 'Newton', 1668, 'BSAS', 'newtoni')
+(10002, 'Marie', 'Curie', 1903, 'BSAS', 'curiem')
+(10003, 'Nikola', 'Tesla', 1878, 'BSEE', 'telsan')
+(10004, 'Thomas', 'Edison', 1879, 'BSEE', 'notcool')
+(10005, 'John', 'von Neumann', 1923, 'BSCO', 'vonneumannj')
+(10006, 'Grace', 'Hopper', 1928, 'BCOS', 'hopperg')
+(10007, 'Mae', 'Jemison', 1981, 'BSCH', 'jemisonm')
+(10008, 'Mark', 'Dean', 1979, 'BSCO', 'deanm')
+(10009, 'Michael', 'Faraday', 1812, 'BSAS', 'faradaym')
+(10010, 'Ada', 'Lovelace', 1832, 'BCOS', 'lovelacea')
+(10011, 'Julie', 'McKenna', 2010, 'BSEE', 'mckennaj')
+(10012, 'Nathan', 'Taylor', 2020, 'BCOS', 'taylorn')
+(10013, 'Michael', 'LeBlanc', 2020, 'BSEE', 'leblancm4')
+(10015, 'A', 'C', 2020, 'BSCO', 'ac')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+4
+Remove a user:
+
+What type of user would you like to remove?
+Student(s)	Instructor(i)	Admin(a)
+These are the current students in the system.
+Entire student table
+(10001, 'Isaac', 'Newton', 1668, 'BSAS', 'newtoni')
+(10002, 'Marie', 'Curie', 1903, 'BSAS', 'curiem')
+(10003, 'Nikola', 'Tesla', 1878, 'BSEE', 'telsan')
+(10004, 'Thomas', 'Edison', 1879, 'BSEE', 'notcool')
+(10005, 'John', 'von Neumann', 1923, 'BSCO', 'vonneumannj')
+(10006, 'Grace', 'Hopper', 1928, 'BCOS', 'hopperg')
+(10007, 'Mae', 'Jemison', 1981, 'BSCH', 'jemisonm')
+(10008, 'Mark', 'Dean', 1979, 'BSCO', 'deanm')
+(10009, 'Michael', 'Faraday', 1812, 'BSAS', 'faradaym')
+(10010, 'Ada', 'Lovelace', 1832, 'BCOS', 'lovelacea')
+(10011, 'Julie', 'McKenna', 2010, 'BSEE', 'mckennaj')
+(10012, 'Nathan', 'Taylor', 2020, 'BCOS', 'taylorn')
+(10013, 'Michael', 'LeBlanc', 2020, 'BSEE', 'leblancm4')
+(10015, 'A', 'C', 2020, 'BSCO', 'ac')
+Please enter the ID of the student you would like to remove.	Entire student table
+(10001, 'Isaac', 'Newton', 1668, 'BSAS', 'newtoni')
+(10002, 'Marie', 'Curie', 1903, 'BSAS', 'curiem')
+(10003, 'Nikola', 'Tesla', 1878, 'BSEE', 'telsan')
+(10004, 'Thomas', 'Edison', 1879, 'BSEE', 'notcool')
+(10005, 'John', 'von Neumann', 1923, 'BSCO', 'vonneumannj')
+(10006, 'Grace', 'Hopper', 1928, 'BCOS', 'hopperg')
+(10007, 'Mae', 'Jemison', 1981, 'BSCH', 'jemisonm')
+(10008, 'Mark', 'Dean', 1979, 'BSCO', 'deanm')
+(10009, 'Michael', 'Faraday', 1812, 'BSAS', 'faradaym')
+(10010, 'Ada', 'Lovelace', 1832, 'BCOS', 'lovelacea')
+(10011, 'Julie', 'McKenna', 2010, 'BSEE', 'mckennaj')
+(10012, 'Nathan', 'Taylor', 2020, 'BCOS', 'taylorn')
+(10013, 'Michael', 'LeBlanc', 2020, 'BSEE', 'leblancm4')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+3
+Add a user:
+
+What type of user would you like to add?
+Student(s)	Instructor(i)	Admin(a)
+Enter Instructor's ID - 5 numbers(starts with 2):	ID has to be 5 numbers
+Enter Instructor's ID - 5 numbers(starts with 2):	ID has to be 5 numbers
+Enter Instructor's ID - 5 numbers(starts with 2):	Already a user with that id number
+Enter Instructor's ID - 5 numbers(starts with 2):	Enter instructor's first name:	Enter instructor's Last name:	Enter the instructor's title:	What year was the instructor employed?:	Enter the instructor's department?:	Dept needs to be 4 letters long
+Enter the instructor's department?:	Enter the instructor's email(without @wit.edu):	
+You have hired instructor  John Not
+Entire instructor table
+(20001, 'Joseph', 'Fourier', 'Full Prof.', 1820, 'BSEE', 'fourierj')
+(20002, 'Nelson', 'Mandela', 'Full Prof.', 1994, 'HUSS', 'mandelan')
+(20004, 'Alan', 'Turing', 'Associate Prof.', 1940, 'BSCO', 'turinga')
+(20005, 'Katie', 'Bouman', 'Assistant Prof.', 2019, 'BCOS', 'boumank')
+(20006, 'Daniel', 'Bernoulli', 'Associate Prof.', 1760, 'BSME', 'bernoullid')
+(20008, 'Eliot', 'Mark', 'Full Prof.', 1994, 'HUSS', 'eliotm')
+(20010, 'John', 'Not', 'Assistant prof', 2028, 'MATH', 'njohn')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+4
+Remove a user:
+
+What type of user would you like to remove?
+Student(s)	Instructor(i)	Admin(a)
+These are the current instructors in the system.
+Entire instructor table
+(20001, 'Joseph', 'Fourier', 'Full Prof.', 1820, 'BSEE', 'fourierj')
+(20002, 'Nelson', 'Mandela', 'Full Prof.', 1994, 'HUSS', 'mandelan')
+(20004, 'Alan', 'Turing', 'Associate Prof.', 1940, 'BSCO', 'turinga')
+(20005, 'Katie', 'Bouman', 'Assistant Prof.', 2019, 'BCOS', 'boumank')
+(20006, 'Daniel', 'Bernoulli', 'Associate Prof.', 1760, 'BSME', 'bernoullid')
+(20008, 'Eliot', 'Mark', 'Full Prof.', 1994, 'HUSS', 'eliotm')
+(20010, 'John', 'Not', 'Assistant prof', 2028, 'MATH', 'njohn')
+Please enter the ID of the instructor you would like to remove.	Entire instructor table
+(20001, 'Joseph', 'Fourier', 'Full Prof.', 1820, 'BSEE', 'fourierj')
+(20002, 'Nelson', 'Mandela', 'Full Prof.', 1994, 'HUSS', 'mandelan')
+(20004, 'Alan', 'Turing', 'Associate Prof.', 1940, 'BSCO', 'turinga')
+(20005, 'Katie', 'Bouman', 'Assistant Prof.', 2019, 'BCOS', 'boumank')
+(20006, 'Daniel', 'Bernoulli', 'Associate Prof.', 1760, 'BSME', 'bernoullid')
+(20008, 'Eliot', 'Mark', 'Full Prof.', 1994, 'HUSS', 'eliotm')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+3
+Add a user:
+
+What type of user would you like to add?
+Student(s)	Instructor(i)	Admin(a)
+Enter admin's ID - 5 numbers(starts with 3):	ID has to be 5 numbers
+Enter admin's ID - 5 numbers(starts with 3):	Already a user with that id number.
+Enter admin's ID - 5 numbers(starts with 3):	Enter admin's first name:	Enter admin's Last name:	Enter the admin's title:	Where is the admin's office?:	Enter the Admin's email(without @wit.edu):	
+You have hired admin  Kit Lan
+Entire admin table
+(30001, 'Barack', 'Obama', 'President', 'Dobbs 1600', 'obamab')
+(30002, 'Malala', 'Yousafzai', 'Registrar', 'Wentworth 101', 'yousafzaim')
+(30010, 'Kit', 'Lan', 'Dean', 'Wentworth 01', 'lank')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+4
+Remove a user:
+
+What type of user would you like to remove?
+Student(s)	Instructor(i)	Admin(a)
+These are the current admins in the system.
+Entire admin table
+(30001, 'Barack', 'Obama', 'President', 'Dobbs 1600', 'obamab')
+(30002, 'Malala', 'Yousafzai', 'Registrar', 'Wentworth 101', 'yousafzaim')
+(30010, 'Kit', 'Lan', 'Dean', 'Wentworth 01', 'lank')
+Please enter the ID of the admin you would like to remove.	Entire admin table
+(30001, 'Barack', 'Obama', 'President', 'Dobbs 1600', 'obamab')
+(30002, 'Malala', 'Yousafzai', 'Registrar', 'Wentworth 101', 'yousafzaim')
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+6
+Would you like to search by a parameter or not?(y or n)Search for a course:
+
+Showing all courses
+Entire course table
+(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'T & R', 'Fall', 1994, 4)
+(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'M & W', 'Spring', 1994, 4)
+(400003, 'Prosthetics', 'BSME', 'Bernoulli', '1:00', 'T & R', 'Summer', 1764, 3)
+(400004, 'Signals & Systems', 'BSEE', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
+(400005, 'CAD', 'ENGR', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+6
+Would you like to search by a parameter or not?(y or n)What would you like to search by(Enter number)?
+1. Class Name	2. Meeting Days	3. Meeting Times	4. Department	5. Instructor
+Please enter the class name:	Result: 
+
+(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'T & R', 'Fall', 1994, 4)
+(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'M & W', 'Spring', 1994, 4)
+Not a valid parameter to search by
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+6
+Would you like to search by a parameter or not?(y or n)What would you like to search by(Enter number)?
+1. Class Name	2. Meeting Days	3. Meeting Times	4. Department	5. Instructor
+Please enter the major/department name: 	Result: 
+
+(400005, 'CAD', 'ENGR', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
+What would you like to do?
+1. Add course to the system
+2. Remove course from system
+3. Add user
+4. Remove user
+5. Force student in to/out of a course
+6. Search course
+7. Print roster
+8. Logout
+8
+Exiting
