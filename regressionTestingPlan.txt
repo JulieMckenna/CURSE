@@ -1,8 +1,3 @@
-import unittest
-import sqlite3
-import curse
-
-
 #testing plan
 
 """
@@ -34,7 +29,7 @@ Things to test
         i. -1
         ii. 6
     e. add a course
-        i. 400008, Comp Sci I, BSCO, Turing, Fall, 9:30, O, 2020, 4
+        i. 400008, Comp Sci I, BSCO, Turing, Fall, 2:30, O, 2020, 4
 4. Drop class from system
     a. check class is in system before - check it is gone after
         i. 400008
@@ -45,8 +40,8 @@ Things to test
     a. add student
     b. add instructor
     c. add admin
-    d. add none of the above
-6. Drop user form system
+    d. add none of the above - valid error message
+6. Drop user from system
     a. check that user is in before, check that they are gone after
     b. try to remove student that isnt in the system
 7. Search courses
@@ -65,25 +60,40 @@ Things to test
     f. search for something with no reuslts
         i. Science 
 9. Add course - student
+   a. add a course
+      i. mkae sure prints in schedule
+   b. add a course not in the system
 10. Drop course - student
 11. Assemble print roster 
 """
 
-#running in command line - saving output to file, need to parse file,
-# need to figure out how to run in test until
+#admin test run though - AdminInput.txt
 """
-class TestLogin(unittest.TestCase):
-    def testStudent(self):
+logs in
+adds a course
+removes that course
+adds a student
+removes that student
+adds an instructor 
+removes that instructor
+adds an admin
+removes that admin
+searches - no parameter
+seraches - parameter - class name
+searches - parameter - department name
+logs out
 """
-database = sqlite3.connect("curseDatabase.db")
-#database = sqlite3.connect(r"C:\Users\mckennaj6\Desktop\Classes\senyyya\APL\CURSE\curseDatabase.db")
-cursor = database.cursor() 
-curse.printAdmins()
-
-user1 = curse.User()
-
-usertype = curse.User.Login(user1, 10001, 'n')
-print(usertype)
-
-database.commit()
-database.close()
+#student test run though - StudentInput.txt
+"""
+logs in
+seraches classes - no parameter
+adds course to schedule
+adds course - not valid crn
+adds course to schedule
+prints schedule
+removes course form schedule
+prints schedule
+removes course - not valid crn
+logs out
+"""
+#instructor test run though
