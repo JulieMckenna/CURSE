@@ -107,6 +107,7 @@ removes course - not valid crn
 logs out
 """
 #instructor test run though - to implement
+#python ./curse.py < StudentInput.txt > testStudentResults.txt
 """
 logs in
 search course
