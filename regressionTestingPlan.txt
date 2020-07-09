@@ -101,4 +101,11 @@ prints schedule
 removes course - not valid crn
 logs out
 """
-#instructor test run though
+#instructor test run though - to implement
+"""
+logs in
+search course
+print schedule
+roster !code needs help!
+logout
+"""

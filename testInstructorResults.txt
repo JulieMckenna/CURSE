@@ -1,0 +1,44 @@
+Welcome to CURSE databases
+Enter your ID to login: 	Welcome  Joseph Fourier
+What would you like to do?
+1. Print Schedule
+2. Print Rosters
+3. Search courses
+4. Logout
+Searching courses:
+
+Would you like to search by a parameter or not?(y or n)What would you like to search by(Enter number)?
+1. Class Name	2. Meeting Days	3. Metting Times	4. Department	5. InstructorPlease enter the major/department name: 	Result: 
+
+(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'TR', 'Fall', 1994, 4)
+(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'MW', 'Spring', 1994, 4)
+What would you like to do?
+1. Print Schedule
+2. Print Rosters
+3. Search courses
+4. Logout
+Printing schedule:
+
+print schedule
+(400004, 'Signals & Systems', 'BSEE', 'Fourier', '8:00', 'MTR', 'Fall', 1822, 4)
+What would you like to do?
+1. Print Schedule
+2. Print Rosters
+3. Search courses
+4. Logout
+Printing rosters:
+
+Please enter CRN of class to pull roster for: (2,)
+No class with that CRN or you don't teach it.
+What would you like to do?
+1. Print Schedule
+2. Print Rosters
+3. Search courses
+4. Logout
+That is not an allowed option
+What would you like to do?
+1. Print Schedule
+2. Print Rosters
+3. Search courses
+4. Logout
+Exiting
