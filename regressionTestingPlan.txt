@@ -88,7 +88,6 @@ logs out
 """
 #student test run though - StudentInput.txt
 #python ./curse.py < StudentInput.txt > testStudentResults.txt
-#to add - register for same class twice
 """
 logs in
 seraches classes - no parameter
@@ -96,6 +95,7 @@ adds course to schedule
 adds course - not valid crn
 adds course to schedule
 prints schedule
+adds course - already registered for it
 removes course form schedule
 prints schedule
 removes course - not valid crn

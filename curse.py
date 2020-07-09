@@ -173,11 +173,11 @@ class student(User):
             schedule = cursor.fetchall()
             if tempT not in schedule:
                 cursor.execute("""INSERT INTO ROSTER VALUES ('%s', '%s');""" % (temp, self.id))
-                print("Successfully added course")
+                print("\nSuccessfully added course")
             else:
-                print("You are already registered for that course")
+                print("\nYou are already registered for that course")
         else:
-            print("No class with that CRN.")
+            print("\nNo class with that CRN.")
         pass
     #do 1st
     def dropCourse(self):
@@ -187,9 +187,9 @@ class student(User):
         tempT = tuple(map(int, temp.split(',')))
         if tempT in roster:
             cursor.execute("""DELETE FROM ROSTER WHERE CRN = '%s';""" % temp)
-            print("Successfully dropped course")
+            print("\nSuccessfully dropped course")
         else:
-            print("You are not registered for a course with that CRN")
+            print("\nYou are not registered for a course with that CRN")
         pass
     def printSchedule(self):
         cursor.execute("""SELECT COURSE.CRN, NAME, INSTRUCTOR, TIME, DAYS, SEMESTER, YEAR, CREDITS FROM COURSE, ROSTER WHERE COURSE.CRN = ROSTER.CRN AND ROSTER.ID = '%s'""" % self.id)

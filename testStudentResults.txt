@@ -12,11 +12,11 @@ Would you like to search by a parameter or not?(y or n)Search for a course:
 
 Showing all courses
 Entire course table
-(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'T & R', 'Fall', 1994, 4)
-(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'M & W', 'Spring', 1994, 4)
-(400003, 'Prosthetics', 'BSME', 'Bernoulli', '1:00', 'T & R', 'Summer', 1764, 3)
-(400004, 'Signals & Systems', 'BSEE', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
-(400005, 'CAD', 'ENGR', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
+(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'TR', 'Fall', 1994, 4)
+(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'MW', 'Spring', 1994, 4)
+(400003, 'Prosthetics', 'BSME', 'Bernoulli', '1:00', 'TR', 'Summer', 1764, 3)
+(400004, 'Signals & Systems', 'BSEE', 'Fourier', '8:00', 'MTR', 'Fall', 1822, 4)
+(400005, 'CAD', 'ENGR', 'NA', '9:30', 'TR', 'Spring', 2020, 1)
 What would you like to do?
 1. Search courses
 2. Add course
@@ -25,7 +25,8 @@ What would you like to do?
 5. Logout
 Adding a course:
 
-Please enter CRN of course you want to add: Successfully added course
+Please enter CRN of course you want to add: 
+Successfully added course
 What would you like to do?
 1. Search courses
 2. Add course
@@ -34,7 +35,8 @@ What would you like to do?
 5. Logout
 Adding a course:
 
-Please enter CRN of course you want to add: No class with that CRN.
+Please enter CRN of course you want to add: 
+No class with that CRN.
 What would you like to do?
 1. Search courses
 2. Add course
@@ -43,7 +45,8 @@ What would you like to do?
 5. Logout
 Adding a course:
 
-Please enter CRN of course you want to add: You are already registered for that course
+Please enter CRN of course you want to add: 
+You are already registered for that course
 What would you like to do?
 1. Search courses
 2. Add course
@@ -52,8 +55,19 @@ What would you like to do?
 5. Logout
 Printing schedule:
 
-(400005, 'CAD', 'NA', '9:30', 'T & R', 'Spring', 2020, 1)
-(400004, 'Signals & Systems', 'Fourier', '8:00', 'M, T & R', 'Fall', 1822, 4)
+(400003, 'Prosthetics', 'Bernoulli', '1:00', 'TR', 'Summer', 1764, 3)
+(400005, 'CAD', 'NA', '9:30', 'TR', 'Spring', 2020, 1)
+(400004, 'Signals & Systems', 'Fourier', '8:00', 'MTR', 'Fall', 1822, 4)
+What would you like to do?
+1. Search courses
+2. Add course
+3. Drop course
+4. Print schedule
+5. Logout
+Adding a course:
+
+Please enter CRN of course you want to add: 
+You are already registered for that course
 What would you like to do?
 1. Search courses
 2. Add course
@@ -62,7 +76,8 @@ What would you like to do?
 5. Logout
 Dropping a course:
 
-Please enter CRN of course you want to drop: Successfully dropped course
+Please enter CRN of course you want to drop: 
+Successfully dropped course
 What would you like to do?
 1. Search courses
 2. Add course
@@ -71,7 +86,8 @@ What would you like to do?
 5. Logout
 Dropping a course:
 
-Please enter CRN of course you want to drop: You are not registered for a course with that CRN
+Please enter CRN of course you want to drop: 
+You are not registered for a course with that CRN
 What would you like to do?
 1. Search courses
 2. Add course
