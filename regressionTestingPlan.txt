@@ -106,6 +106,7 @@ logs out
 logs in
 search course
 print schedule
-roster !code needs help!
+roster 
+print roster for course not teaching
 logout
 """
