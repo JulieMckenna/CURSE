@@ -469,7 +469,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                 print("\nNo Studnet in the system with that ID")
             else:
                 cursor.execute("DELETE FROM STUDENT WHERE ID=?", (removeid, ))
-                print("\nRemoved Student whoes ID number is:", removeid)       
+                print("\nRemoved Student with ID number:", removeid)       
         elif table == 'i':
             print("These are the current instructors in the system.")
             printInstructors()
@@ -481,7 +481,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                 print("\nNo Instructor in the system with that ID")
             else:
                 cursor.execute("DELETE FROM INSTRUCTOR WHERE ID=?", (removeid, )) 
-                print("Removed Instructor whoes id is: ", removeid) 
+                print("Removed Instructor with ID number: ", removeid) 
         elif table == 'a':
             print("These are the current admins in the system.")
             printAdmins()
@@ -493,7 +493,7 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
                 print("\nNo Admin in the system with that ID")
             else:
                 cursor.execute("DELETE FROM ADMIN WHERE ID=?", (removeid, )) 
-                print("\nRemoved admin whoes id is: ", removeid) 
+                print("\nRemoved admin with ID number: ", removeid) 
         else:
             print("Not a valid table name")
         pass

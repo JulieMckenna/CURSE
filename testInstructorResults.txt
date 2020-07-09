@@ -28,14 +28,19 @@ What would you like to do?
 4. Logout
 Printing rosters:
 
-Please enter CRN of class to pull roster for: (2,)
-No class with that CRN or you don't teach it.
+Please enter CRN of class to pull roster for: (400004,)
+(10001, 'Isaac', 'Newton', 'newtoni')
+(10002, 'Marie', 'Curie', 'curiem')
+(10010, 'Ada', 'Lovelace', 'lovelacea')
 What would you like to do?
 1. Print Schedule
 2. Print Rosters
 3. Search courses
 4. Logout
-That is not an allowed option
+Printing rosters:
+
+Please enter CRN of class to pull roster for: (400010,)
+No class with that CRN or you don't teach it.
 What would you like to do?
 1. Print Schedule
 2. Print Rosters
