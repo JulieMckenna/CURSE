@@ -61,10 +61,15 @@ Things to test
         i. Science 
 9. Add course - student
    a. add a course
-      i. mkae sure prints in schedule
+      i. make sure prints in schedule
    b. add a course not in the system
+   c. Add a course already registered for 
 10. Drop course - student
+    a. drop a course registered for
+    b. drop a course not regsitered for
 11. Assemble print roster 
+    a. print roster of course that they are teaching
+    b. print roster of a course they are not teaching
 """
 
 #admin test run though - AdminInput.txt
