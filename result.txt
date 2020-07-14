@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 Welcome Isaac Newton
+=======
+Welcome to CURSE databases
+Enter your ID to login: 
+That is not an allowed user type
+>>>>>>> 9a6e46571bdd243e5d61952d0a87e3226ebc727b

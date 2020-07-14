@@ -5,7 +5,7 @@ import sqlite3
 # database file connection 
 #database = sqlite3.connect("curseDatabase.db")
 #connecting with Julies laptop for testing 
-database = sqlite3.connect(r"C:\Users\mckennaj6\Desktop\Classes\senyyya\APL\CURSE\curseDatabase.db")
+database = sqlite3.connect("curseDatabase.db")
 
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
 cursor = database.cursor() 

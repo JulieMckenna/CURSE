@@ -1,0 +1,3 @@
+Welcome to CURSE databases
+Enter your ID to login: 
+That is not an allowed user type
