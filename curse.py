@@ -1,6 +1,6 @@
 #asignment2
 import sqlite3
-from sys import argv
+#from sys import argv
 
 # database file connection 
 #database = sqlite3.connect("curseDatabase.db")
@@ -53,6 +53,39 @@ def printAdmins():
     query_result = cursor.fetchall()
     for i in query_result:
 	    print(i) 
+
+def checkConflict():
+    CanAdd = False
+    classtimes = []
+    classdays = []
+    #gets the students current class days and times from thier schedule
+    cursor.execute("""SELECT COURSE.TIME, COURSE.DAYS FROM ROSTER JOIN COURSE ON ROSTER.CRN=COURSE.CRN WHERE ID=10001""")
+    courses = cursor.fetchall()
+    for i in courses:
+        classtimes.append(i[0])
+        classdays.append(i[1])
+    print(classtimes)
+    print(classdays)
+    #gets the time and day of the class they want to add
+    cursor.execute("""SELECT TIME, DAYS FROM COURSE WHERE CRN=400005""")
+    classs = cursor.fetchall()
+    for i in classs:
+        regclasstime = i[0]
+        regclassday = i[1]
+        print(i)
+    #check if they are the same
+    for i in range(len(classtimes)):
+        if regclassday not in classdays[i]:
+            #print("do not have the have the same meeting days")
+            CanAdd = True
+        else:
+            print("do have the same class days")
+            if regclasstime not in classtimes[i]:
+                #print("are not scheduled at the same time")
+                CanAdd= True
+            else:
+                print("This course's meeting times conflicts with another one of your classes")
+    return CanAdd
 
 class User:
     def __init__(self):
@@ -172,8 +205,12 @@ class student(User):
             cursor.execute("""SELECT CRN FROM ROSTER WHERE ID = '%s'""" % self.id)
             schedule = cursor.fetchall()
             if tempT not in schedule:
-                cursor.execute("""INSERT INTO ROSTER VALUES ('%s', '%s');""" % (temp, self.id))
-                print("\nSuccessfully added course")
+                CanAdd = self.checkConflict(temp)
+                if CanAdd == True:
+                    cursor.execute("""INSERT INTO ROSTER VALUES ('%s', '%s');""" % (temp, self.id))
+                    print("\nSuccessfully added course")
+                else:
+                    print("\nThis course's meeting times conflicts with another one of your classes")
             else:
                 print("\nYou are already registered for that course")
         else:
@@ -197,6 +234,41 @@ class student(User):
         for i in schedule:
             print(i)
         pass
+    def checkConflict(self, crn):
+        CanAdd = True
+        classtimes = []
+        classdays = []
+        #gets the students current class days and times from thier schedule
+        cursor.execute("""SELECT COURSE.TIME, COURSE.DAYS FROM ROSTER JOIN COURSE ON ROSTER.CRN=COURSE.CRN WHERE ID = '%s'""" % self.id)
+        courses = cursor.fetchall()
+        for i in courses:
+            classtimes.append(i[0])
+            classdays.append(i[1])
+        print(classtimes)
+        print(classdays)
+        #gets the time and day of the class they want to add
+        cursor.execute("""SELECT TIME, DAYS FROM COURSE WHERE CRN = '%s'""" % crn)
+        classs = cursor.fetchall()
+        for i in classs:
+            regclasstime = i[0]
+            regclassday = i[1]
+            print(i)
+        #check if they are the same
+        while(CanAdd == True):
+            for i in range(len(classtimes)):
+                if regclassday not in classdays[i]:
+                    #print("do not have the have the same meeting days")
+                    pass
+                else:
+                    #print("do have the same class days")
+                    if regclasstime not in classtimes[i]:
+                        pass
+                        #print("are not scheduled at the same time")
+                    else:
+                        CanAdd=False
+        return CanAdd
+
+
 
 #instructor class
 class instructor(User):
@@ -540,6 +612,8 @@ WHERE INSTRUCTOR.DEPT =?""", (DEPT,))
         for i in roster:
             print(i)
         pass
+
+
 
 #menu
 user1 = User()
