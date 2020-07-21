@@ -112,7 +112,7 @@ logs out
 logs in
 search course
 print schedule
-roster 
+prints roster for course teaching
 print roster for course not teaching
 logout
 """
