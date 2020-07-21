@@ -90,6 +90,7 @@ cursor.execute("""INSERT INTO INSTRUCTOR VALUES(20008, 'Eliot', 'Mark', 'Full Pr
 cursor.execute("""INSERT INTO ADMIN VALUES(30001, 'Barack', 'Obama', 'President', 'Dobbs 1600', 'obamab');""") 
 cursor.execute("""INSERT INTO ADMIN VALUES(30002, 'Malala', 'Yousafzai', 'Registrar', 'Wentworth 101', 'yousafzaim');""") 
 
+# Course List
 cursor.execute("""INSERT INTO COURSE VALUES(400001, 'English I', 'HUSS', 'Mandela', '10:15', 'TR', 'Fall', 1994, 4);""")
 cursor.execute("""INSERT INTO COURSE VALUES(400002, 'English II', 'HUSS', 'Mandela', '10:00', 'MW', 'Spring', 1994, 4);""")
 cursor.execute("""INSERT INTO COURSE VALUES(400003, 'Prosthetics', 'BSME', 'Bernoulli', '1:00', 'TR', 'Summer', 1764, 3);""")
